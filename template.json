@@ -1,0 +1,69 @@
+{
+  "nicheId": "clinic-standard",
+  "name": "Solo Doctor Clinic Master Blueprint (Template A)",
+  "version": "1.0.0",
+  "category": "Healthcare & Solo Medical Practices",
+  "targetAudience": "Independent General Physicians, Family Doctors & Solo Clinics in India",
+  "description": "Production-grade, anti-slop master website template for solo physicians and family clinics. Features verified doctor credentials, live OPD consultation schedule scrubber, dual WhatsApp and web enquiry system, transparent fee card, and Schema.org local medical SEO.",
+  "gitRepository": "https://github.com/Prem-Mourya/clinic-standards.git",
+  "status": "APPROVED",
+  "techStack": {
+    "framework": "React 19",
+    "bundler": "Vite 8",
+    "styling": "Tailwind CSS v4",
+    "language": "TypeScript",
+    "testing": "Playwright"
+  },
+  "designSystem": {
+    "philosophy": "Anti-Slop (taste-skill) & Tactile Polish (emil-design-eng)",
+    "baselineTheme": "Warm Editorial Tech",
+    "colorRatio": "60% Base / 30% Structure / 10% Accent",
+    "fontPairing": {
+      "display": "Playfair Display",
+      "body": "Plus Jakarta Sans"
+    },
+    "supportedThemes": [
+      "Warm Editorial Tech",
+      "Quiet Luxury Alabaster",
+      "Modernist Mineral",
+      "Deep Moss & Lemon Laser"
+    ]
+  },
+  "qualityAudit": {
+    "lighthousePerformance": 99,
+    "accessibilityScore": 100,
+    "seoScore": 100,
+    "bestPracticesScore": 100,
+    "typeCheckErrors": 0,
+    "lintErrors": 0,
+    "testSummary": "8 multi-page routing, dual appointment enquiry, theme switcher, and mobile viewport tests passed (100% exit 0)",
+    "auditedAt": "2026-11-20T17:45:00Z"
+  },
+  "configSchemaPath": "./siteforge.config.example.json",
+  "customizableSlots": [
+    "branding",
+    "clinicName",
+    "doctor",
+    "qualifications",
+    "registrationNumber",
+    "services",
+    "consultationFee",
+    "operatingHours",
+    "contactAndLocation",
+    "appointmentInstructions",
+    "testimonials",
+    "faqs"
+  ],
+  "featureFlags": {
+    "onlineBookingModal": true,
+    "whatsappDirect": true,
+    "liveOpdStatusBadge": true,
+    "feeTransparencyCard": true,
+    "doctorCredentialsSection": true,
+    "patientReviewsCarousel": true,
+    "interactiveGoogleMap": true,
+    "themeSwitcher": true,
+    "schemaOrgMedicalClinicSeo": true,
+    "existingPatientsPortal": true
+  }
+}

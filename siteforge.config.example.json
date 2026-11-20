@@ -1,0 +1,220 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "clientId": "AAROGYA-001",
+  "slug": "aarogya-family-clinic",
+  "businessName": "Aarogya Family Clinic",
+  "tagline": "Thoughtful, Evidence-Based Family Healthcare",
+  "nicheId": "clinic-standard",
+  "templateVersion": "1.0.0",
+  "branding": {
+    "themeName": "Warm Editorial Tech",
+    "primaryColor": "#111111",
+    "accentColor": "#D9541E",
+    "canvasColor": "#F3EEE3",
+    "displayFont": "Playfair Display",
+    "bodyFont": "Plus Jakarta Sans"
+  },
+  "doctor": {
+    "salutation": "Dr.",
+    "name": "Arjun Mehta",
+    "fullName": "Dr. Arjun Mehta",
+    "credentials": "MBBS, MD (General Medicine)",
+    "degrees": ["MBBS", "MD - General Medicine"],
+    "registrationNumber": "DMC/R/58492",
+    "medicalCouncil": "Delhi & Madhya Pradesh Medical Council",
+    "experienceYears": 12,
+    "designation": "Consultant General Physician & Family Doctor",
+    "almaMater": "King George's Medical University (KGMU)",
+    "formerInstitutions": "Ex-Senior Resident, Dept. of Internal Medicine, SMS Medical College & Hospital",
+    "consultationMinutes": 15,
+    "philosophy": "Unhurried, evidence-based consultations with zero tolerance for unnecessary antibiotic prescribing or polypharmacy. Every diagnosis is clearly explained to patients and families."
+  },
+  "contact": {
+    "phone": "+91 98260 12345",
+    "whatsapp": "+919826012345",
+    "displayPhone": "+91 98260 12345",
+    "email": "consult@aarogyafamilyclinic.in",
+    "address": "Shop No. 12, Ground Floor, Shanti Vihar Commercial Complex, Ring Road",
+    "landmark": "Opposite Central Bank of India, Near Navlakha Square",
+    "area": "Navlakha / Ring Road",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "pincode": "452001",
+    "emergencyNotice": "For life-threatening medical emergencies (acute chest pain, severe trauma, stroke symptoms), please report immediately to the nearest tertiary emergency department/ICU."
+  },
+  "urls": {
+    "googleMaps": "https://maps.google.com/?q=22.6980,75.8750",
+    "embedMaps": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.528!2d75.8750!3d22.6980!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQxJzUyLjgiTiA3NcKwNTInMzAuMCJF!5e0!3m2!1sen!2sin!4v1700000000000",
+    "appointmentWhatsAppText": "Hello Aarogya Family Clinic, I would like to request an appointment with Dr. Arjun Mehta."
+  },
+  "operatingHours": {
+    "morningOpd": {
+      "days": "Monday – Saturday",
+      "hours": "10:00 AM – 1:30 PM",
+      "type": "Morning Outpatient Consultation"
+    },
+    "eveningOpd": {
+      "days": "Monday – Saturday",
+      "hours": "5:30 PM – 9:00 PM",
+      "type": "Evening Outpatient Consultation"
+    },
+    "sundayOpd": {
+      "days": "Sunday",
+      "hours": "10:00 AM – 1:00 PM",
+      "type": "Prior Appointment Only"
+    }
+  },
+  "consultationFee": {
+    "standardOutpatientFee": 400,
+    "currencySymbol": "₹",
+    "followUpWindowDays": 7,
+    "followUpFee": 0,
+    "paymentModes": ["Cash", "UPI (PhonePe, Google Pay, Paytm)", "Debit / Credit Cards"],
+    "inclusions": [
+      "15-minute dedicated physician consultation",
+      "Physical examination & vitals check (BP, Pulse, SpO2, Blood Sugar check if required)",
+      "Digital prescription with clear dosage instructions",
+      "Free follow-up review within 7 days for the same acute episode"
+    ],
+    "disclaimer": "Fees are transparent and collected at the clinic reception. No hidden dispensing markups."
+  },
+  "services": [
+    {
+      "id": "acute-infections",
+      "category": "Fever & Acute Care",
+      "name": "Fever, Viral & Infection Management",
+      "shortDesc": "Clinical diagnosis and evidence-guided management of seasonal fevers, viral infections, dengue, typhoid, urinary tract infections, and flu.",
+      "duration": "15 min",
+      "suitableFor": "Patients with high temperature, chills, sore throat, or body aches."
+    },
+    {
+      "id": "chronic-diseases",
+      "category": "Chronic Conditions",
+      "name": "Diabetes & Hypertension Care",
+      "shortDesc": "Continuous monitoring, medication optimization, and lifestyle guidance for Type 2 Diabetes, High Blood Pressure, and Lipid Disorders.",
+      "duration": "20 min",
+      "suitableFor": "Long-term metabolic monitoring and dosage titration."
+    },
+    {
+      "id": "preventive-health",
+      "category": "Preventive Care",
+      "name": "Annual Health Check & Risk Screening",
+      "shortDesc": "Systematic evaluation of cardiovascular health, metabolic markers, liver/kidney profiles, and age-appropriate screening recommendations.",
+      "duration": "25 min",
+      "suitableFor": "Adults and seniors seeking preventive wellness."
+    },
+    {
+      "id": "respiratory-care",
+      "category": "Respiratory Care",
+      "name": "Asthma, Cough & Allergy Care",
+      "shortDesc": "Assessment of chronic cough, seasonal allergic rhinitis, bronchospasm, and inhaler technique instruction.",
+      "duration": "15 min",
+      "suitableFor": "Wheezing, persistent nocturnal cough, and seasonal allergies."
+    },
+    {
+      "id": "pediatric-family",
+      "category": "Family Care",
+      "name": "Routine Family & Pediatric Care",
+      "shortDesc": "Primary care consultations for children over 2 years and family members with common illnesses, digestive complaints, and nutritional advice.",
+      "duration": "15 min",
+      "suitableFor": "Families seeking a consistent, trusted primary doctor."
+    },
+    {
+      "id": "minor-procedures",
+      "category": "Clinical Procedures",
+      "name": "Minor Procedures & Vitals Screening",
+      "shortDesc": "In-clinic sterile wound dressing, suture removal, nebulization, blood glucose finger-prick testing, and rapid ECG coordination.",
+      "duration": "15 min",
+      "suitableFor": "Minor cuts, superficial wounds, and acute bronchospasm."
+    }
+  ],
+  "patientInstructions": {
+    "whatToBring": [
+      "Any previous doctor prescriptions and discharge summaries",
+      "Recent diagnostic lab reports and blood work (within last 6 months)",
+      "Current prescription medication strips or a list of daily dosages",
+      "Government photo ID (Aadhaar or Driving License for clinic registration)"
+    ],
+    "appointmentProcess": [
+      {
+        "step": 1,
+        "title": "Submit Enquiry or Message on WhatsApp",
+        "description": "Choose your preferred morning or evening OPD slot through the web form or send a pre-filled WhatsApp message."
+      },
+      {
+        "step": 2,
+        "title": "Reception Confirms Your Slot & Token",
+        "description": "The clinic desk reviews doctor availability and messages back with your confirmed consultation token and estimated timing."
+      },
+      {
+        "step": 3,
+        "title": "Arrive 10 Minutes Prior",
+        "description": "Visit the clinic at Shanti Vihar Complex with past medical files. Vitals will be recorded before meeting Dr. Arjun Mehta."
+      }
+    ]
+  },
+  "testimonials": [
+    {
+      "id": "t1",
+      "patientName": "Rajeshwar Sharma",
+      "age": 54,
+      "condition": "Type 2 Diabetes & Blood Pressure",
+      "location": "Navlakha, Indore",
+      "rating": 5,
+      "comment": "Dr. Arjun Mehta took 20 minutes to review my 3-year lab history and explained why I did not need two of the extra medicines I was previously given. My HbA1c is now stable at 6.8 with proper lifestyle changes.",
+      "verifiedConsent": true
+    },
+    {
+      "id": "t2",
+      "patientName": "Sunita Verma",
+      "age": 38,
+      "condition": "Severe Viral Fever & Cough",
+      "location": "Bhawarkua, Indore",
+      "rating": 5,
+      "comment": "Very polite and attentive doctor. Did not prescribe unnecessary IV drips or expensive brand-name medicines. Guided us on hydration and fever monitoring. Recovered completely within 4 days.",
+      "verifiedConsent": true
+    },
+    {
+      "id": "t3",
+      "patientName": "Anand Joshi",
+      "age": 67,
+      "condition": "Senior Citizen Health Check",
+      "location": "Ring Road, Indore",
+      "rating": 5,
+      "comment": "Finding a family doctor who genuinely listens without hurrying is rare nowadays. The clinic is clean, well-ventilated, and wheelchair accessible from the parking area.",
+      "verifiedConsent": true
+    }
+  ],
+  "faqs": [
+    {
+      "category": "Consultation & Fees",
+      "question": "What is the consultation fee and what payment methods are accepted?",
+      "answer": "The outpatient consultation fee is ₹400. This includes a comprehensive 15-minute examination, vitals screening, and a digitally printed prescription. We accept Cash, UPI (Google Pay, PhonePe, Paytm), and major Debit/Credit cards."
+    },
+    {
+      "category": "Consultation & Fees",
+      "question": "How does the 7-day follow-up consultation work?",
+      "answer": "If you need a follow-up review for the same illness within 7 days of your initial visit (e.g. to review new blood test reports or monitor fever progression), the follow-up consultation is completely complimentary (₹0)."
+    },
+    {
+      "category": "Appointments & Timings",
+      "question": "Do I need an appointment or can I walk in directly?",
+      "answer": "Walk-in patients are always welcome during morning (10:00 AM – 1:30 PM) and evening (5:30 PM – 9:00 PM) OPD hours. However, priority tokens are allocated to patients who request an appointment slot online or via WhatsApp, which reduces your waiting room time."
+    },
+    {
+      "category": "Appointments & Timings",
+      "question": "Does submitting a website enquiry guarantee my appointment time?",
+      "answer": "No. Submitting the web enquiry notifies our clinic reception. Our team verifies the doctor's real-time schedule and confirms your slot with a consultation token via WhatsApp message or telephone call."
+    },
+    {
+      "category": "Clinic & Location",
+      "question": "Where is Aarogya Family Clinic located and is parking available?",
+      "answer": "We are located at Shop No. 12, Ground Floor, Shanti Vihar Commercial Complex, Ring Road, Indore (Opposite Central Bank of India, near Navlakha Square). Ground-level two-wheeler and four-wheeler parking is available right in front of the complex."
+    },
+    {
+      "category": "Medical Policies",
+      "question": "What should I do in case of a medical emergency?",
+      "answer": "Aarogya Family Clinic is an outpatient primary care facility and does not operate an emergency trauma center or intensive care unit. For life-threatening emergencies (chest pain, acute breathlessness, seizures, or severe trauma), please proceed directly to the nearest hospital emergency casualty."
+    }
+  ]
+}
