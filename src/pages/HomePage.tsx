@@ -23,8 +23,48 @@ import {
   Award,
   Copy,
   Check,
-  Navigation
+  Navigation,
+  ArrowUpRight,
+  Star
 } from 'lucide-react';
+
+const SmileBadgeIcon: React.FC<{ className?: string }> = ({ className = 'w-16 h-16' }) => (
+  <svg
+    viewBox="0 0 100 100"
+    className={`${className} drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)] select-none`}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    {/* 3D bottom-right dark rim */}
+    <ellipse cx="50" cy="58" rx="42" ry="38" fill="#111111" />
+    <ellipse cx="50" cy="54" rx="42" ry="38" fill="#D97706" />
+    {/* Main yellow coin body */}
+    <ellipse cx="50" cy="48" rx="42" ry="38" fill="#FACC15" stroke="#111111" strokeWidth="4.5" />
+    {/* Glossy top-left highlight */}
+    <path
+      d="M 22 42 C 24 30, 42 22, 60 22"
+      stroke="#FEF08A"
+      strokeWidth="3.5"
+      strokeLinecap="round"
+      opacity="0.8"
+    />
+    {/* Left Eye: looking up and to the right */}
+    <ellipse cx="40" cy="40" rx="6.5" ry="9" fill="#111111" />
+    <circle cx="42.5" cy="37" r="2.5" fill="#FFFFFF" />
+    {/* Right Eye: looking up and to the right */}
+    <ellipse cx="58" cy="38" rx="6.5" ry="9" fill="#111111" />
+    <circle cx="60.5" cy="35" r="2.5" fill="#FFFFFF" />
+    {/* Expressive Smile Curve */}
+    <path
+      d="M 36 55 Q 50 67 64 53"
+      fill="none"
+      stroke="#111111"
+      strokeWidth="4"
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
 export const HomePage: React.FC = () => {
   const { openAppointmentModal, showToast } = useClinic();
@@ -351,33 +391,72 @@ export const HomePage: React.FC = () => {
         </ScrollReveal>
       </section>
 
-      {/* 6. PATIENT REVIEWS: Scroll-Driven Overlapping Card Deck */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-            <div>
-              <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-[var(--text-structure)]">
-                Feedback from Our Patients
-              </h2>
-              <p className="text-sm text-[var(--text-muted)] mt-1 max-w-xl">
-                Authentic reviews shared with verified patient authorization. Clinical outcomes depend on individual adherence and health history.
-              </p>
-            </div>
+      {/* 6. PATIENT REVIEWS: Split Editorial Showcase & Automated Smooth Card Deck */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: Bold Editorial Typography + 3D Smile Coin + Pill Action */}
+          <div className="lg:col-span-5 space-y-6">
+            <ScrollReveal direction="left">
+              <div className="space-y-6">
+                {/* Headline Block with 3D Smile Coin (Styled after reference image) */}
+                <div className="relative inline-block pr-12 sm:pr-16">
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black italic tracking-tighter uppercase text-[var(--text-structure)] leading-[0.92]">
+                    FEEDBACK<br />
+                    FROM OUR<br />
+                    PATIENTS
+                  </h2>
 
-            <Link
-              to="/reviews"
-              className="press-tactile self-start sm:self-end inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] hover:border-[var(--accent-primary)]"
-            >
-              <span>Read All Verified Reviews</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
+                  {/* 3D Yellow Smile Coin / Sticker from Reference */}
+                  <div className="absolute -top-4 right-0 sm:-top-6 sm:-right-2 rotate-12 transition-transform duration-300 hover:rotate-6 hover:scale-105 pointer-events-none">
+                    <SmileBadgeIcon className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                  </div>
+                </div>
+
+                {/* Subtitle */}
+                <p className="text-base sm:text-lg text-[var(--text-muted)] font-medium leading-relaxed max-w-md">
+                  See for yourself — authentic recovery stories and clinical care experiences from patients and families in Indore.
+                </p>
+
+                {/* Pill CTA Button (Matching Reference) & Rating Details */}
+                <div className="space-y-4 pt-1">
+                  <div>
+                    <Link
+                      to="/reviews"
+                      className="press-tactile inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[var(--text-structure)] text-[var(--bg-canvas)] text-xs sm:text-sm font-extrabold uppercase tracking-wider hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-md group"
+                    >
+                      <span>Read All Verified Reviews</span>
+                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </Link>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs text-[var(--text-muted)] font-semibold">
+                    <div className="flex items-center gap-0.5 text-amber-500">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <span className="font-bold text-[var(--text-structure)]">4.9 / 5</span>
+                    <span>· 150+ Patient Reviews</span>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
 
-        {/* Scroll-Driven Overlapping Card Stack Slider */}
-        <OverlappingCardStack testimonials={TESTIMONIALS} allowViewToggle={true} scrollDriven={true} />
+          {/* Right Column: Automated Smooth Overlapping Card Deck */}
+          <div className="lg:col-span-7">
+            <ScrollReveal direction="right">
+              <OverlappingCardStack
+                testimonials={TESTIMONIALS}
+                allowViewToggle={true}
+                autoPlay={true}
+                autoPlayInterval={4200}
+              />
+            </ScrollReveal>
+          </div>
+        </div>
 
-        <p className="text-[11px] text-center text-[var(--text-muted)] mt-6 italic">
+        <p className="text-[11px] text-center text-[var(--text-muted)] mt-8 italic">
           * {TESTIMONIALS_DISCLAIMER}
         </p>
       </section>
