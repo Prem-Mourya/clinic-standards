@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Star, CheckCircle2, Layers, LayoutGrid, ArrowDown } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Star,
+  CheckCircle2,
+  Layers,
+  LayoutGrid,
+  ArrowDown
+} from 'lucide-react';
 import type { TestimonialItem } from '../../data/testimonialsData';
 
 interface OverlappingCardStackProps {
@@ -8,6 +16,50 @@ interface OverlappingCardStackProps {
   allowViewToggle?: boolean;
   scrollDriven?: boolean;
 }
+
+// Curated pastel palettes per card index matching the video reference
+const CARD_PALETTES = [
+  {
+    bg: 'bg-[#F2EDFD] dark:bg-[#1E1730]',
+    border: 'border-[#DDD2F8] dark:border-[#3C2D5C]',
+    text: 'text-[#1D1135] dark:text-[#EFEAFC]',
+    subtext: 'text-[#564573] dark:text-[#A79AC2]',
+    tagBg: 'bg-[#E2D5FA] dark:bg-[#2C2147]',
+    tagText: 'text-[#532DB0] dark:text-[#C7ACFA]'
+  },
+  {
+    bg: 'bg-[#EBF8F2] dark:bg-[#122A1E]',
+    border: 'border-[#C5EBD8] dark:border-[#1F4C36]',
+    text: 'text-[#0E3523] dark:text-[#E3F7EE]',
+    subtext: 'text-[#3E6D56] dark:text-[#96C7AF]',
+    tagBg: 'bg-[#D3F2E3] dark:bg-[#1B3E2D]',
+    tagText: 'text-[#1B7349] dark:text-[#78E2AE]'
+  },
+  {
+    bg: 'bg-[#FFF0E8] dark:bg-[#2E1C15]',
+    border: 'border-[#F8D2C2] dark:border-[#522E22]',
+    text: 'text-[#3E1A11] dark:text-[#FDEAE2]',
+    subtext: 'text-[#7B4D41] dark:text-[#CBB0A7]',
+    tagBg: 'bg-[#FDE0D3] dark:bg-[#43251B]',
+    tagText: 'text-[#A84523] dark:text-[#FCA587]'
+  },
+  {
+    bg: 'bg-[#ECF5FE] dark:bg-[#112338]',
+    border: 'border-[#C8E1FC] dark:border-[#1E3E64]',
+    text: 'text-[#0A2946] dark:text-[#E4F1FD]',
+    subtext: 'text-[#3B6286] dark:text-[#96BBDC]',
+    tagBg: 'bg-[#D5E9FD] dark:bg-[#1B3654]',
+    tagText: 'text-[#1A62A6] dark:text-[#7EB9F7]'
+  },
+  {
+    bg: 'bg-[#FEF9E8] dark:bg-[#2B2513]',
+    border: 'border-[#F7E7B8] dark:border-[#4C411D]',
+    text: 'text-[#382D08] dark:text-[#FAF4DC]',
+    subtext: 'text-[#706030] dark:text-[#C7BA8E]',
+    tagBg: 'bg-[#FDF0C8] dark:bg-[#3D3417]',
+    tagText: 'text-[#8A6A0B] dark:text-[#F4CE5E]'
+  }
+];
 
 export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
   testimonials,
@@ -21,6 +73,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const trackRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,12 +82,19 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
 
   const total = testimonials.length;
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleNext = useCallback(() => {
     if (isAnimating) return;
     isManualNavRef.current = Date.now();
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % total);
-    setTimeout(() => setIsAnimating(false), 380);
+    setTimeout(() => setIsAnimating(false), 420);
   }, [isAnimating, total]);
 
   const handlePrev = useCallback(() => {
@@ -42,10 +102,10 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
     isManualNavRef.current = Date.now();
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev - 1 + total) % total);
-    setTimeout(() => setIsAnimating(false), 380);
+    setTimeout(() => setIsAnimating(false), 420);
   }, [isAnimating, total]);
 
-  // Scroll-driven card transitions: As user scrolls through the track, cards advance
+  // Scroll-driven sticky card sliding
   useEffect(() => {
     if (!scrollDriven || viewMode === 'grid') {
       setIsPinned(false);
@@ -62,14 +122,14 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
             return;
           }
 
-          // Don't override if user just clicked next/prev in the last 800ms
+          // Skip scroll sync for 800ms after user clicks manual button
           if (Date.now() - isManualNavRef.current < 800) {
             ticking = false;
             return;
           }
 
           const rect = trackRef.current.getBoundingClientRect();
-          const stickyTopOffset = 96; // 6rem navbar clearance
+          const stickyTopOffset = 88; // Navbar clearance (5.5rem)
           const scrollDistance = stickyTopOffset - rect.top;
           const maxScrollDistance = rect.height - window.innerHeight;
 
@@ -78,16 +138,13 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
             return;
           }
 
-          // Track pinning state
           const currentlyPinned = rect.top <= stickyTopOffset && rect.bottom >= window.innerHeight;
           setIsPinned(currentlyPinned);
 
           if (rect.top <= stickyTopOffset && rect.bottom >= window.innerHeight) {
-            // Pinned in viewport: Calculate progress (0 to 1)
+            // Within scroll track: Map progress strictly to [0, total - 1]
             const rawProgress = scrollDistance / maxScrollDistance;
             const progress = Math.min(1, Math.max(0, rawProgress));
-
-            // Map progress across total cards
             const targetIdx = Math.min(total - 1, Math.floor(progress * total));
 
             setCurrentIndex((prev) => {
@@ -97,10 +154,8 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
               return prev;
             });
           } else if (rect.top > stickyTopOffset) {
-            // Above track -> Card 0
             setCurrentIndex(0);
           } else if (rect.bottom < window.innerHeight) {
-            // Passed track -> Last Card
             setCurrentIndex(total - 1);
           }
 
@@ -118,7 +173,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
     };
   }, [scrollDriven, viewMode, total]);
 
-  // Pointer drag gestures
+  // Touch & Pointer drag gestures
   const handlePointerDown = (e: React.PointerEvent) => {
     if (viewMode === 'grid' || isAnimating) return;
     setIsDragging(true);
@@ -146,7 +201,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
     setDragOffset(0);
   };
 
-  // Grid View layout
+  // Grid view option
   if (viewMode === 'grid') {
     return (
       <div className={`space-y-6 ${className}`}>
@@ -163,58 +218,53 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((item) => (
-            <div
-              key={item.id}
-              className="rounded-2xl p-6 bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between card-hover shadow-xs"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-1 text-amber-500">
-                    {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-                    ))}
+          {testimonials.map((item, idx) => {
+            const palette = CARD_PALETTES[idx % CARD_PALETTES.length];
+            return (
+              <div
+                key={item.id}
+                className={`rounded-3xl p-6 sm:p-7 border ${palette.bg} ${palette.border} ${palette.text} flex flex-col justify-between card-hover shadow-xs`}
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-1 text-amber-500">
+                      {[...Array(item.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <span className={`text-[11px] font-semibold ${palette.subtext}`}>{item.date}</span>
                   </div>
-                  <span className="text-[11px] text-[var(--text-muted)]">{item.date}</span>
-                </div>
-                <p className="text-xs sm:text-sm text-[var(--text-structure)] leading-relaxed italic">
-                  "{item.comment}"
-                </p>
-              </div>
 
-              <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
-                <div className="font-bold text-xs text-[var(--text-structure)]">
-                  {item.patientName}, <span className="tabular-nums">{item.age} yrs</span>
+                  <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${palette.tagBg} ${palette.tagText}`}>
+                    {item.category}
+                  </span>
+
+                  <p className="text-sm sm:text-base leading-relaxed italic font-medium pt-1">
+                    "{item.comment}"
+                  </p>
                 </div>
-                <div className="text-[11px] text-[var(--text-muted)]">
-                  Consulted for: <strong className="text-[var(--text-structure)]">{item.condition}</strong>
-                </div>
-                <div className="text-[10px] text-emerald-700 dark:text-emerald-400 mt-1 flex items-center gap-1 font-medium">
-                  <CheckCircle2 className="w-3 h-3" />
-                  Verified Patient Consent
+
+                <div className="pt-4 mt-4 border-t border-black/10 dark:border-white/10">
+                  <div className="font-bold text-sm">
+                    {item.patientName}, <span className="tabular-nums">{item.age} yrs</span>
+                  </div>
+                  <div className={`text-xs mt-0.5 ${palette.subtext}`}>
+                    Consulted for: <strong>{item.condition}</strong> · {item.location}
+                  </div>
+                  <div className="text-[11px] text-emerald-700 dark:text-emerald-400 mt-2 flex items-center gap-1 font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Verified Patient Consent
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );
   }
 
-  // 3 visible stacked layers: index 0 (top/active), 1 (middle peek), 2 (back peek)
-  const visibleCards = [0, 1, 2].map((offset) => {
-    const itemIndex = (currentIndex + offset) % total;
-    return {
-      item: testimonials[itemIndex],
-      itemIndex,
-      depth: offset
-    };
-  });
-
   const isLastCard = currentIndex === total - 1;
-
-  // Track height calculation for scroll driven stacking:
-  // Each card is given ~55vh of scroll distance, minimum 220vh total track height
   const trackHeight = scrollDriven ? `${Math.max(220, (total + 0.5) * 55)}vh` : 'auto';
 
   return (
@@ -223,39 +273,39 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
       className={`relative ${className}`}
       style={{ height: trackHeight }}
     >
-      {/* Sticky pinned viewport container */}
+      {/* Sticky Viewport Stage */}
       <div className={`space-y-6 ${scrollDriven ? 'sticky top-20 sm:top-24 z-20 pb-4' : ''}`}>
-        {/* Controls header: View toggle & Deck navigation */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-2">
+        {/* Controls Bar: Pill counter, scroll guidance hint & navigation arrows (No Play/Pause button) */}
+        <div className="flex items-center justify-between flex-wrap gap-3 pb-2">
+          <div className="flex items-center gap-2.5">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20">
               <Layers className="w-3.5 h-3.5" />
               <span>Interactive Overlap Stack</span>
             </span>
 
-            <span className="text-xs text-[var(--text-muted)] tabular-nums">
+            <span className="text-xs font-bold text-[var(--text-structure)] tabular-nums">
               {currentIndex + 1} of {total} stories
             </span>
 
             {/* Scroll guidance hint badge */}
             {scrollDriven && (
               <span
-                className={`hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-all ${
+                className={`hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
                   isLastCard
-                    ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20'
+                    ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
                     : isPinned
-                    ? 'bg-[var(--bg-card)] text-[var(--text-structure)] border border-[var(--border-subtle)]'
+                    ? 'bg-[var(--bg-card)] text-[var(--text-structure)] border border-[var(--border-subtle)] shadow-xs'
                     : 'bg-transparent text-[var(--text-muted)]'
                 }`}
               >
-                <ArrowDown className={`w-3 h-3 ${isLastCard ? 'animate-bounce text-emerald-600' : 'text-[var(--accent-primary)]'}`} />
-                <span>{isLastCard ? 'Release & scroll ahead' : 'Scroll down to change cards'}</span>
+                <ArrowDown className={`w-3.5 h-3.5 ${isLastCard ? 'animate-bounce text-emerald-600' : 'text-[var(--accent-primary)]'}`} />
+                <span>{isLastCard ? 'Release & scroll ahead ↓' : 'Scroll to change cards ↓'}</span>
               </span>
             )}
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Grid view switch */}
+            {/* Grid view switcher */}
             {allowViewToggle && (
               <button
                 type="button"
@@ -264,12 +314,12 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
                 title="Switch to 3-column grid"
                 aria-label="Switch to grid view"
               >
-                <LayoutGrid className="w-3.5 h-3.5" />
+                <LayoutGrid className="w-4 h-4" />
               </button>
             )}
 
-            {/* Prev/Next Navigation Buttons */}
-            <div className="inline-flex items-center gap-1.5 ml-1">
+            {/* Prev / Next arrows */}
+            <div className="inline-flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={handlePrev}
@@ -292,110 +342,172 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
           </div>
         </div>
 
-        {/* Overlapping Deck Display */}
+        {/* Video Reference Style: Overlapping Horizontal Card Deck Stage */}
         <div
           ref={containerRef}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className="relative min-h-[310px] sm:min-h-[290px] w-full select-none cursor-grab active:cursor-grabbing touch-pan-y"
-          style={{ perspective: '1200px' }}
+          className="relative h-[480px] sm:h-[450px] w-full overflow-hidden select-none cursor-grab active:cursor-grabbing touch-pan-y"
+          style={{ perspective: '1400px' }}
         >
-          {visibleCards
-            .slice()
-            .reverse()
-            .map(({ item, depth }) => {
-              const isTop = depth === 0;
+          {testimonials.map((item, idx) => {
+            const offset = idx - currentIndex;
+            const palette = CARD_PALETTES[idx % CARD_PALETTES.length];
+            const stepX = isMobile ? 200 : 290;
 
-              // Geometry calculations for overlapping stacking
-              let translateY = depth * 14;
-              let translateX = depth * 16;
-              let scale = 1 - depth * 0.05;
-              let opacity = depth === 0 ? 1 : depth === 1 ? 0.88 : 0.65;
-              let zIndex = 30 - depth * 10;
-              let rotate = depth === 1 ? 1.2 : depth === 2 ? 2.4 : 0;
+            // Card Geometry matching the video:
+            // - Center card: offset = 0, scale 1, rotate 0deg, full opacity
+            // - Left card (previous): offset = -1, tilted negative rotate(-6deg), peeking left
+            // - Right card (next): offset = 1, upright peeking right, scale 0.96
+            // - Far right cards: offset >= 2, stacked further right
+            let translateX = 0;
+            let translateY = 0;
+            let rotate = 0;
+            let scale = 1;
+            let opacity = 1;
+            let zIndex = 30;
+            let pointerEvents: 'auto' | 'none' = 'none';
 
-              // Apply interactive drag offset to top card
-              if (isTop && isDragging) {
+            if (offset === 0) {
+              // Active Center Card
+              translateX = 0;
+              translateY = 0;
+              rotate = 0;
+              scale = 1;
+              opacity = 1;
+              zIndex = 30;
+              pointerEvents = 'auto';
+
+              if (isDragging) {
                 translateX += dragOffset;
                 rotate += dragOffset * 0.04;
               }
+            } else if (offset === -1) {
+              // Previous card peeking on the left, tilted (exactly as in the reference video!)
+              translateX = -stepX;
+              translateY = 10;
+              rotate = -6;
+              scale = 0.94;
+              opacity = 0.88;
+              zIndex = 20;
+              pointerEvents = 'auto';
+            } else if (offset === 1) {
+              // Next card peeking on the right, ready to enter
+              translateX = stepX;
+              translateY = 6;
+              rotate = 2;
+              scale = 0.96;
+              opacity = 0.9;
+              zIndex = 25;
+              pointerEvents = 'auto';
+            } else if (offset === 2) {
+              // Second card to the right
+              translateX = stepX * 1.9;
+              translateY = 12;
+              rotate = 4;
+              scale = 0.92;
+              opacity = 0.55;
+              zIndex = 15;
+            } else if (offset < -1) {
+              // Passed card far to the left
+              translateX = -stepX * 2;
+              translateY = 16;
+              rotate = -10;
+              scale = 0.88;
+              opacity = 0;
+              zIndex = 10;
+            } else {
+              // Upcoming cards far to the right
+              translateX = stepX * 2.8;
+              translateY = 16;
+              rotate = 6;
+              scale = 0.88;
+              opacity = 0;
+              zIndex = 10;
+            }
 
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => {
-                    if (!isTop && !isAnimating) {
-                      handleNext();
-                    }
-                  }}
-                  className={`absolute inset-x-0 top-0 rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)] transition-all will-change-transform ${
-                    isTop ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer hover:border-[var(--accent-primary)]'
-                  }`}
-                  style={{
-                    transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotate}deg)`,
-                    opacity,
-                    zIndex,
-                    transitionDuration: isDragging && isTop ? '0ms' : '360ms',
-                    transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                    boxShadow: isTop
-                      ? '0 20px 40px -12px rgba(17, 17, 17, 0.12), 0 0 0 1px var(--border-subtle)'
-                      : '0 8px 24px -6px rgba(17, 17, 17, 0.06)'
-                  }}
-                >
-                  <div className="flex flex-col justify-between h-full space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between text-xs">
-                        {/* Calibrated SVG Stars */}
-                        <div className="flex items-center gap-1 text-amber-500">
-                          {[...Array(item.rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
-                          ))}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent-primary)] bg-[var(--accent-subtle)] px-2.5 py-0.5 rounded-full">
-                            {item.category}
-                          </span>
-                          <span className="text-[11px] text-[var(--text-muted)]">{item.date}</span>
-                        </div>
-                      </div>
-
-                      <p className="text-sm sm:text-base text-[var(--text-structure)] leading-relaxed italic pt-1">
-                        "{item.comment}"
-                      </p>
+            return (
+              <div
+                key={item.id}
+                onClick={() => {
+                  if (offset !== 0 && !isAnimating) {
+                    if (offset === 1) handleNext();
+                    else if (offset === -1) handlePrev();
+                  }
+                }}
+                className={`absolute top-2 left-1/2 -ml-[150px] sm:-ml-[190px] w-[300px] sm:w-[380px] h-[450px] sm:h-[430px] rounded-3xl p-6 sm:p-8 border ${palette.bg} ${palette.border} ${palette.text} shadow-xl will-change-transform flex flex-col justify-between transition-all ${
+                  offset === 0
+                    ? 'cursor-grab active:cursor-grabbing'
+                    : 'cursor-pointer hover:opacity-100'
+                }`}
+                style={{
+                  transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotate}deg) scale(${scale})`,
+                  opacity,
+                  zIndex,
+                  pointerEvents,
+                  transitionDuration: isDragging && offset === 0 ? '0ms' : '440ms',
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow:
+                    offset === 0
+                      ? '0 24px 48px -12px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.05)'
+                      : '0 12px 28px -8px rgba(0, 0, 0, 0.1)'
+                }}
+              >
+                {/* Card Top: Stars & Category Tag */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-amber-500">
+                      {[...Array(item.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      ))}
                     </div>
-
-                    <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div>
-                        <div className="font-bold text-sm text-[var(--text-structure)]">
-                          {item.patientName}, <span className="tabular-nums">{item.age} yrs</span>
-                        </div>
-                        <div className="text-xs text-[var(--text-muted)]">
-                          Consulted for: <strong className="text-[var(--text-structure)]">{item.condition}</strong> · {item.location}
-                        </div>
-                      </div>
-
-                      <div className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-semibold shrink-0">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Verified Authorized Patient Consent</span>
-                      </div>
-                    </div>
+                    <span className={`text-xs font-semibold ${palette.subtext}`}>{item.date}</span>
                   </div>
 
-                  {/* Overlap Peek Hint on Second/Third card */}
-                  {!isTop && (
-                    <div className="absolute top-3 right-4 px-2 py-0.5 rounded-full bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-[10px] font-bold text-[var(--text-muted)]">
-                      Click to view
-                    </div>
-                  )}
+                  <span
+                    className={`inline-block text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${palette.tagBg} ${palette.tagText}`}
+                  >
+                    {item.category}
+                  </span>
+
+                  {/* Main Quote */}
+                  <p className="text-base sm:text-lg leading-relaxed font-medium pt-1">
+                    "{item.comment}"
+                  </p>
                 </div>
-              );
-            })}
+
+                {/* Card Bottom: Patient info & verification */}
+                <div className="pt-4 border-t border-black/10 dark:border-white/10 space-y-1">
+                  <div className="flex items-baseline justify-between">
+                    <span className="font-bold text-base">{item.patientName}</span>
+                    <span className={`text-xs font-semibold tabular-nums ${palette.subtext}`}>
+                      {item.age} years
+                    </span>
+                  </div>
+                  <div className={`text-xs ${palette.subtext}`}>
+                    Consulted for: <strong>{item.condition}</strong>
+                  </div>
+                  <div className="text-[11px] text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1.5 pt-1">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Verified Authorized Patient Consent</span>
+                  </div>
+                </div>
+
+                {/* Click to flip indicator on peeking cards */}
+                {offset !== 0 && (
+                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-white/70 dark:bg-black/40 backdrop-blur-xs text-[10px] font-bold">
+                    {offset === 1 ? 'Next →' : '← Previous'}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Progress Dots / Story Scrubber */}
-        <div className="flex items-center justify-center gap-1.5 pt-2">
+        {/* Story Scrubber Progress Dots */}
+        <div className="flex items-center justify-center gap-2 pt-2">
           {testimonials.map((_, i) => (
             <button
               key={i}
@@ -405,13 +517,13 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
                   isManualNavRef.current = Date.now();
                   setIsAnimating(true);
                   setCurrentIndex(i);
-                  setTimeout(() => setIsAnimating(false), 380);
+                  setTimeout(() => setIsAnimating(false), 420);
                 }
               }}
-              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                 currentIndex === i
-                  ? 'w-8 bg-[var(--accent-primary)]'
-                  : 'w-2 bg-[var(--border-subtle)] hover:bg-[var(--text-muted)]'
+                  ? 'w-10 bg-[var(--accent-primary)] shadow-xs'
+                  : 'w-2.5 bg-[var(--border-subtle)] hover:bg-[var(--text-muted)]'
               }`}
               aria-label={`Jump to review ${i + 1}`}
             />
