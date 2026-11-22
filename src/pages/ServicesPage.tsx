@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CLINIC_DATA, type ServiceItem } from '../data/clinicData';
 import { useClinic } from '../context/ClinicContext';
 import { FeeTransparencyCard } from '../components/FeeTransparencyCard';
+import { SpotlightCard, ScrollReveal } from '../components/animations';
 import {
   Clock,
   AlertTriangle,
@@ -55,56 +56,55 @@ export const ServicesPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Services Grid */}
+      {/* Services Grid with Modern Spotlight Hover & Staggered Scroll Reveal */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredServices.map((service) => (
-          <div
-            key={service.id}
-            className="rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] flex flex-col justify-between card-hover"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent-primary)] bg-[var(--accent-subtle)] px-2.5 py-0.5 rounded-full">
-                  {service.category}
-                </span>
-                <span className="text-xs text-[var(--text-muted)] font-medium flex items-center gap-1 tabular-nums">
-                  <Clock className="w-3.5 h-3.5" />
-                  {service.duration} consultation
-                </span>
+        {filteredServices.map((service, idx) => (
+          <ScrollReveal key={service.id} delay={idx * 50} direction="up">
+            <SpotlightCard className="p-6 sm:p-8 h-full">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent-primary)] bg-[var(--accent-subtle)] px-2.5 py-0.5 rounded-full">
+                    {service.category}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] font-medium flex items-center gap-1 tabular-nums">
+                    <Clock className="w-3.5 h-3.5" />
+                    {service.duration} consultation
+                  </span>
+                </div>
+
+                <h2 className="font-editorial text-2xl font-bold text-[var(--text-structure)]">
+                  {service.name}
+                </h2>
+
+                <p className="text-xs sm:text-sm text-[var(--text-soft)] leading-relaxed">
+                  {service.shortDesc}
+                </p>
+
+                <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-xs">
+                  <div className="font-bold text-[var(--text-structure)] mb-0.5">Recommended for:</div>
+                  <div className="text-[11px] text-[var(--text-muted)]">{service.suitableFor}</div>
+                </div>
               </div>
 
-              <h2 className="font-editorial text-2xl font-bold text-[var(--text-structure)]">
-                {service.name}
-              </h2>
+              <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                <div className="text-xs">
+                  <span className="text-[var(--text-muted)]">Fee: </span>
+                  <strong className="text-[var(--text-structure)] tabular-nums">₹400</strong>
+                  <span className="text-emerald-700 text-[10px] block font-semibold dark:text-emerald-300">
+                    Includes 7-day free follow-up
+                  </span>
+                </div>
 
-              <p className="text-xs sm:text-sm text-[var(--text-soft)] leading-relaxed">
-                {service.shortDesc}
-              </p>
-
-              <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-xs">
-                <div className="font-bold text-[var(--text-structure)] mb-0.5">Recommended for:</div>
-                <div className="text-[11px] text-[var(--text-muted)]">{service.suitableFor}</div>
+                <button
+                  onClick={() => openAppointmentModal(service.name)}
+                  className="press-tactile px-5 py-2 rounded-xl bg-[var(--text-structure)] text-[var(--bg-card)] hover:bg-[var(--accent-primary)] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Book consultation</span>
+                </button>
               </div>
-            </div>
-
-            <div className="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
-              <div className="text-xs">
-                <span className="text-[var(--text-muted)]">Fee: </span>
-                <strong className="text-[var(--text-structure)] tabular-nums">₹400</strong>
-                <span className="text-emerald-700 text-[10px] block font-semibold dark:text-emerald-300">
-                  Includes 7-day free follow-up
-                </span>
-              </div>
-
-              <button
-                onClick={() => openAppointmentModal(service.name)}
-                className="press-tactile px-5 py-2 rounded-xl bg-[var(--text-structure)] text-[var(--bg-card)] hover:bg-[var(--accent-primary)] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
-              >
-                <Calendar className="w-3.5 h-3.5" />
-                <span>Book consultation</span>
-              </button>
-            </div>
-          </div>
+            </SpotlightCard>
+          </ScrollReveal>
         ))}
       </div>
 
@@ -126,17 +126,16 @@ export const ServicesPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {CLINIC_DATA.patientInstructions.whatToBring.map((item: string, idx: number) => (
-            <div
-              key={idx}
-              className="p-4 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3"
-            >
-              <div className="w-7 h-7 rounded-lg bg-[var(--accent-subtle)] text-[var(--accent-primary)] flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 tabular-nums">
-                {idx + 1}
+            <ScrollReveal key={idx} delay={idx * 40} direction="up">
+              <div className="p-4 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3">
+                <div className="w-7 h-7 rounded-lg bg-[var(--accent-subtle)] text-[var(--accent-primary)] flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 tabular-nums">
+                  {idx + 1}
+                </div>
+                <span className="text-xs sm:text-sm text-[var(--text-structure)] leading-relaxed">
+                  {item}
+                </span>
               </div>
-              <span className="text-xs sm:text-sm text-[var(--text-structure)] leading-relaxed">
-                {item}
-              </span>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>

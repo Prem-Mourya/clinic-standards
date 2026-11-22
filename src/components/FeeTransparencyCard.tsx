@@ -59,10 +59,14 @@ export const FeeTransparencyCard: React.FC<{ className?: string }> = ({ classNam
       </div>
 
       {/* Price Display */}
-      <div className="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-subtle)]">
+      <div className="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-subtle)] transition-[opacity,transform] duration-200 ease-out">
         <div>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-4xl sm:text-5xl font-extrabold text-[var(--accent-primary)] tracking-tight tabular-nums">
+            <span
+              key={isFollowup ? '0' : '400'}
+              className="text-4xl sm:text-5xl font-extrabold tracking-tight tabular-nums transition-colors duration-200"
+              style={{ color: isFollowup ? '#16a34a' : 'var(--accent-primary)' }}
+            >
               {fee.symbol}{isFollowup ? '0' : fee.amount}
             </span>
             <span className="text-sm text-[var(--text-muted)] font-medium">
@@ -83,14 +87,14 @@ export const FeeTransparencyCard: React.FC<{ className?: string }> = ({ classNam
       </div>
 
       {/* Inclusions list */}
-      <div className="py-6">
+      <div className="py-6 transition-[opacity,transform] duration-200 ease-out">
         <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-structure)] mb-4">
           {isFollowup ? 'Included in your free 7-day follow-up:' : 'Included in every standard consultation:'}
         </h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <div key={activePlan} className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 animate-modal-enter">
           {inclusions.map((item: string, idx: number) => (
             <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-structure)]">
-              <CheckCircle2 className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
+              <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${isFollowup ? 'text-emerald-600' : 'text-[var(--accent-primary)]'}`} />
               <span>{item}</span>
             </div>
           ))}

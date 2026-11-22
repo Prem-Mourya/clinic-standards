@@ -1,6 +1,7 @@
 import React from 'react';
 import { CLINIC_DATA } from '../data/clinicData';
 import { useClinic } from '../context/ClinicContext';
+import { TiltCard, SpotlightCard, ScrollReveal } from '../components/animations';
 import {
   ShieldCheck,
   Clock,
@@ -20,26 +21,28 @@ export const AboutDoctorPage: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
       {/* 1. Main Profile Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left 5 Columns: Doctor Portrait */}
+        {/* Left 5 Columns: Doctor Portrait with 3D Tilt */}
         <div className="lg:col-span-5">
-          <div className="rounded-2xl p-3 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)]">
-            <div className="aspect-4/5 rounded-xl overflow-hidden bg-stone-200">
-              <img
-                src={doc.photoUrl}
-                alt={`${doc.fullName} - General Physician`}
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div className="mt-4 p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-1 text-xs">
-              <div className="flex items-center gap-2 font-bold text-[var(--text-structure)]">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                Verified Registration Notice
+          <TiltCard maxTilt={3.5} scale={1.01}>
+            <div className="rounded-2xl p-3 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)]">
+              <div className="aspect-4/5 rounded-xl overflow-hidden bg-stone-200">
+                <img
+                  src={doc.photoUrl}
+                  alt={`${doc.fullName} - General Physician`}
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
-              <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
-                {doc.verifiedRegistrationNotice}
-              </p>
+              <div className="mt-4 p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-1 text-xs">
+                <div className="flex items-center gap-2 font-bold text-[var(--text-structure)]">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  Verified Registration Notice
+                </div>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  {doc.verifiedRegistrationNotice}
+                </p>
+              </div>
             </div>
-          </div>
+          </TiltCard>
         </div>
 
         {/* Right 7 Columns: Credentials & Practice History */}
@@ -130,45 +133,53 @@ export const AboutDoctorPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
-            <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
-              <Clock className="w-4 h-4 text-[var(--accent-primary)]" />
-              1. 15-Minute Dedicated Consultations
-            </div>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-              We reject 2-minute rush appointments. Adequate time is allocated to listen to symptom progression, review past medications, and answer family queries thoroughly.
-            </p>
-          </div>
+          <ScrollReveal delay={0} direction="up">
+            <SpotlightCard className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5 h-full">
+              <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
+                <Clock className="w-4 h-4 text-[var(--accent-primary)]" />
+                1. 15-Minute Dedicated Consultations
+              </div>
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                We reject 2-minute rush appointments. Adequate time is allocated to listen to symptom progression, review past medications, and answer family queries thoroughly.
+              </p>
+            </SpotlightCard>
+          </ScrollReveal>
 
-          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
-            <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              2. Zero Tolerance for Polypharmacy
-            </div>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-              We prescribe only medications with clear clinical necessity. Antibiotics are never used for simple viral fevers, and vitamins are recommended only when genuine deficiency exists.
-            </p>
-          </div>
+          <ScrollReveal delay={60} direction="up">
+            <SpotlightCard className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5 h-full">
+              <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                2. Zero Tolerance for Polypharmacy
+              </div>
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                We prescribe only medications with clear clinical necessity. Antibiotics are never used for simple viral fevers, and vitamins are recommended only when genuine deficiency exists.
+              </p>
+            </SpotlightCard>
+          </ScrollReveal>
 
-          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
-            <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
-              <HeartPulse className="w-4 h-4 text-[var(--accent-primary)]" />
-              3. Transparent Diagnostics
-            </div>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-              Laboratory investigations and imaging are ordered only when they change the treatment plan. We never impose redundant testing batteries.
-            </p>
-          </div>
+          <ScrollReveal delay={120} direction="up">
+            <SpotlightCard className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5 h-full">
+              <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
+                <HeartPulse className="w-4 h-4 text-[var(--accent-primary)]" />
+                3. Transparent Diagnostics
+              </div>
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                Laboratory investigations and imaging are ordered only when they change the treatment plan. We never impose redundant testing batteries.
+              </p>
+            </SpotlightCard>
+          </ScrollReveal>
 
-          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
-            <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              4. Free 7-Day Follow-Up Policy
-            </div>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-              If your symptoms require monitoring or report review within 7 days, your follow-up visit is completely complimentary (₹0 fee). Continuity of care is our priority.
-            </p>
-          </div>
+          <ScrollReveal delay={180} direction="up">
+            <SpotlightCard className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5 h-full">
+              <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                4. Free 7-Day Follow-Up Policy
+              </div>
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                If your symptoms require monitoring or report review within 7 days, your follow-up visit is completely complimentary (₹0 fee). Continuity of care is our priority.
+              </p>
+            </SpotlightCard>
+          </ScrollReveal>
         </div>
       </section>
     </div>

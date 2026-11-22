@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CLINIC_DATA } from '../data/clinicData';
 import { useClinic } from '../context/ClinicContext';
 import { OpdLiveBadge } from '../components/OpdLiveBadge';
+import { SpotlightCard, ScrollReveal } from '../components/animations';
 import {
   Phone,
   Navigation,
@@ -43,43 +44,42 @@ export const TimingsLocationPage: React.FC = () => {
         </p>
       </div>
 
-      {/* 1. Timings & Schedule Breakdown */}
+      {/* 1. Timings & Schedule Breakdown with Modern Spotlight & Staggered Reveal */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {CLINIC_DATA.opdSchedule.map((session) => (
-          <div
-            key={session.id}
-            className="rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] flex flex-col justify-between space-y-4 card-hover"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)] bg-[var(--accent-subtle)] px-2.5 py-0.5 rounded-full">
-                  {session.days}
-                </span>
-                <span className="text-xs text-[var(--text-muted)] font-medium">
-                  {session.type}
-                </span>
+        {CLINIC_DATA.opdSchedule.map((session, sIdx) => (
+          <ScrollReveal key={session.id} delay={sIdx * 60} direction="up">
+            <SpotlightCard className="p-6 sm:p-8 space-y-4 h-full">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)] bg-[var(--accent-subtle)] px-2.5 py-0.5 rounded-full">
+                    {session.days}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] font-medium">
+                    {session.type}
+                  </span>
+                </div>
+                <h2 className="font-editorial text-2xl font-bold text-[var(--text-structure)]">
+                  {session.title}
+                </h2>
+                <div className="text-2xl font-extrabold text-[var(--text-structure)] mt-2 tabular-nums">
+                  {session.hours}
+                </div>
+                <p className="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
+                  {session.note}
+                </p>
               </div>
-              <h2 className="font-editorial text-2xl font-bold text-[var(--text-structure)]">
-                {session.title}
-              </h2>
-              <div className="text-2xl font-extrabold text-[var(--text-structure)] mt-2 tabular-nums">
-                {session.hours}
-              </div>
-              <p className="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
-                {session.note}
-              </p>
-            </div>
 
-            <div className="pt-4 border-t border-[var(--border-subtle)]">
-              <button
-                onClick={() => openAppointmentModal(session.title)}
-                className="press-tactile w-full py-2.5 rounded-xl bg-[var(--bg-canvas)] hover:bg-[var(--accent-primary)] hover:text-white text-xs font-bold text-[var(--text-structure)] border border-[var(--border-subtle)] flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <Calendar className="w-3.5 h-3.5" />
-                <span>Request {session.title} Slot</span>
-              </button>
-            </div>
-          </div>
+              <div className="pt-4 border-t border-[var(--border-subtle)]">
+                <button
+                  onClick={() => openAppointmentModal(session.title)}
+                  className="press-tactile w-full py-2.5 rounded-xl bg-[var(--bg-canvas)] hover:bg-[var(--accent-primary)] hover:text-white text-xs font-bold text-[var(--text-structure)] border border-[var(--border-subtle)] flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Request {session.title} Slot</span>
+                </button>
+              </div>
+            </SpotlightCard>
+          </ScrollReveal>
         ))}
       </div>
 
