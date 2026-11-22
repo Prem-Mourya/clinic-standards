@@ -24,9 +24,9 @@
     --border-subtle: rgba(17, 17, 17, 0.12);
     --border-card: rgba(17, 17, 17, 0.08);
 
-    /* Shadow tokens */
-    --shadow-soft: 0 4px 20px -2px rgba(17, 17, 17, 0.05), 0 2px 6px -1px rgba(17, 17, 17, 0.03);
-    --shadow-elevated: 0 12px 32px -4px rgba(17, 17, 17, 0.08), 0 4px 12px -2px rgba(17, 17, 17, 0.04);
+    /* Shadow tokens (single declared elevation, no ghost double-borders) */
+    --shadow-soft: 0 4px 18px -2px rgba(17, 17, 17, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(17, 17, 17, 0.09);
   }
 
   /* Theme 2: Quiet Luxury Alabaster */
@@ -43,6 +43,8 @@
     --accent-subtle: rgba(197, 160, 89, 0.16);
     --border-subtle: rgba(45, 42, 38, 0.12);
     --border-card: rgba(45, 42, 38, 0.08);
+    --shadow-soft: 0 4px 18px -2px rgba(45, 42, 38, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(45, 42, 38, 0.09);
   }
 
   /* Theme 3: Modernist Mineral */
@@ -59,6 +61,8 @@
     --accent-subtle: rgba(234, 88, 12, 0.14);
     --border-subtle: rgba(29, 34, 32, 0.12);
     --border-card: rgba(29, 34, 32, 0.08);
+    --shadow-soft: 0 4px 18px -2px rgba(29, 34, 32, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(29, 34, 32, 0.09);
   }
 
   /* Theme 4: Deep Moss & Lemon Laser (Dark Mode Modern) */
@@ -76,7 +80,7 @@
     --border-subtle: rgba(255, 255, 255, 0.14);
     --border-card: rgba(255, 255, 255, 0.08);
     --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
-    --shadow-elevated: 0 12px 32px -4px rgba(0, 0, 0, 0.45);
+    --shadow-elevated: 0 16px 36px -4px rgba(0, 0, 0, 0.45);
   }
 
   html, body, #root {
@@ -87,6 +91,7 @@
     color: var(--text-structure);
     font-family: var(--font-body);
     transition: background-color 200ms ease, color 200ms ease;
+    caret-color: var(--accent-primary);
   }
 
   html {
@@ -116,10 +121,10 @@
     background: var(--accent-primary);
   }
 
-  /* Focus styling */
+  /* Focus styling with clear offset ring */
   :focus-visible {
     outline: 2px solid var(--accent-primary);
-    outline-offset: 2px;
+    outline-offset: 3px;
   }
 
   /* Text selection */
@@ -130,7 +135,7 @@
 }
 
 /* ==========================================================================
-   Emil Kowalski Design Engineering Utilities (emil-design-eng)
+   Emil Kowalski Design Engineering Utilities (emil-design-eng) & Craft Floor
    Strict composite-only transitions, tactile press scaling, natural scales
    ========================================================================== */
 
@@ -188,12 +193,19 @@
 }
 
 .animate-pulse-dot {
-  animation: pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulseDot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Editorial Serif Headings */
+/* Editorial Serif Headings: balanced, tracked cleanly */
 .font-editorial {
   font-family: var(--font-heading);
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+/* Numeric alignment for currency, timings, dates */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Custom Editorial Hand-drawn underline */
@@ -211,4 +223,23 @@
   height: 6px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 Q 50 1 98 9' stroke='%23D9541E' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center bottom;
   background-size: 100% 100%;
+}
+
+/* Respect user's motion preferences (Accessibility & Craft Floor) */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-pulse-dot {
+    animation: none !important;
+  }
+  .press-tactile:active {
+    transform: none !important;
+  }
+  .card-hover:hover {
+    transform: none !important;
+  }
 }

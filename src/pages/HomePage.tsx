@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CLINIC_DATA } from '../data/clinicData';
 import { TESTIMONIALS, TESTIMONIALS_DISCLAIMER } from '../data/testimonialsData';
@@ -9,20 +9,28 @@ import {
   Calendar,
   MessageSquare,
   ShieldCheck,
-  Clock,
-  MapPin,
   ChevronRight,
   ArrowRight,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
   FileText,
-  HeartPulse,
-  Award
+  Award,
+  Star,
+  Copy,
+  Check,
+  Navigation
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const { openAppointmentModal } = useClinic();
+  const { openAppointmentModal, showToast } = useClinic();
+  const [copiedField, setCopiedField] = useState<'address' | 'phone' | null>(null);
+
+  const copyToClipboard = (text: string, field: 'address' | 'phone') => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    showToast(`Copied ${field === 'address' ? 'clinic address' : 'phone number'} to clipboard`);
+    setTimeout(() => setCopiedField(null), 2500);
+  };
 
   return (
     <div className="space-y-16 sm:space-y-24">
@@ -33,14 +41,14 @@ export const HomePage: React.FC = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left 7 Columns: Editorial Headline, Authority Badge, Actions */}
+            {/* Left 7 Columns: Editorial Headline, Live Status, Actions */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              {/* Live OPD Badge & Category */}
+              {/* Live OPD Badge & Council Registration */}
               <div className="flex flex-wrap items-center gap-2.5">
                 <OpdLiveBadge />
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--bg-surface)] text-[var(--text-structure)] border border-[var(--border-subtle)]">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--bg-surface)] text-[var(--text-structure)] border border-[var(--border-subtle)]">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                  Reg. No. {CLINIC_DATA.doctor.registrationNumber}
+                  <span className="tabular-nums">Reg. No. {CLINIC_DATA.doctor.registrationNumber}</span>
                 </span>
               </div>
 
@@ -59,7 +67,7 @@ export const HomePage: React.FC = () => {
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
                   onClick={() => openAppointmentModal()}
-                  className="press-tactile py-3.5 px-7 rounded-2xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  className="press-tactile py-3.5 px-7 rounded-xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Calendar className="w-4 h-4" />
                   <span>Request Consultation Slot</span>
@@ -69,28 +77,28 @@ export const HomePage: React.FC = () => {
                   href={`https://wa.me/${CLINIC_DATA.contact.whatsappRaw}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="press-tactile py-3.5 px-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] font-bold text-sm hover:border-emerald-600 hover:text-emerald-700 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  className="press-tactile py-3.5 px-6 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] font-bold text-sm hover:border-emerald-600 hover:text-emerald-700 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
                   <MessageSquare className="w-4 h-4 text-emerald-600" />
                   <span>Consult on WhatsApp</span>
                 </a>
               </div>
 
-              {/* 4 Clinical Pillars */}
+              {/* 4 Clinical Pillars with tabular numbers */}
               <div className="pt-6 border-t border-[var(--border-subtle)] grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
-                <div className="p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
-                  <div className="text-xs font-bold text-[var(--text-structure)]">15-Min Slots</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
+                  <div className="text-xs font-bold text-[var(--text-structure)] tabular-nums">15-Min Slots</div>
                   <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Unhurried visits</div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
-                  <div className="text-xs font-bold text-[var(--text-structure)]">₹400 Standard</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
+                  <div className="text-xs font-bold text-[var(--text-structure)] tabular-nums">₹400 Standard</div>
                   <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Transparent fee</div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
-                  <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400">7-Day Free</div>
+                <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
+                  <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">7-Day Free</div>
                   <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Complimentary review</div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
+                <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
                   <div className="text-xs font-bold text-[var(--text-structure)]">Zero Polypharmacy</div>
                   <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Rational medicines</div>
                 </div>
@@ -99,9 +107,9 @@ export const HomePage: React.FC = () => {
 
             {/* Right 5 Columns: Doctor Portrait & Authentic Credibility Card */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-3xl p-3 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)] card-hover">
+              <div className="relative rounded-2xl p-3 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)] card-hover">
                 {/* Genuine Physician Photo with subtle frame */}
-                <div className="relative aspect-4/5 rounded-2xl overflow-hidden bg-stone-200">
+                <div className="relative aspect-4/5 rounded-xl overflow-hidden bg-stone-200">
                   <img
                     src={CLINIC_DATA.doctor.photoUrl}
                     alt={`${CLINIC_DATA.doctor.fullName} - General Physician`}
@@ -119,7 +127,7 @@ export const HomePage: React.FC = () => {
                       {CLINIC_DATA.doctor.fullName}
                     </h3>
                     <p className="text-xs text-white/90 font-medium">
-                      {CLINIC_DATA.doctor.credentials} · {CLINIC_DATA.doctor.experienceYears}+ Years Clinical Practice
+                      {CLINIC_DATA.doctor.credentials} · <span className="tabular-nums">{CLINIC_DATA.doctor.experienceYears}+ Years Clinical Practice</span>
                     </p>
                     <p className="text-[11px] text-white/70 mt-1">
                       {CLINIC_DATA.doctor.formerInstitutions}
@@ -133,7 +141,7 @@ export const HomePage: React.FC = () => {
                     <Award className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
                     <div>
                       <div className="font-bold text-[var(--text-structure)]">Medical Council Registered</div>
-                      <div className="text-[10px] text-[var(--text-muted)]">{CLINIC_DATA.doctor.registrationNumber} ({CLINIC_DATA.doctor.almaMater})</div>
+                      <div className="text-[10px] text-[var(--text-muted)] tabular-nums">{CLINIC_DATA.doctor.registrationNumber} ({CLINIC_DATA.doctor.almaMater})</div>
                     </div>
                   </div>
                   <Link
@@ -152,13 +160,9 @@ export const HomePage: React.FC = () => {
 
       {/* 2. DEALT MOMENT 1: Live OPD Schedule & Queue Guidance Scrubber */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl p-6 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
+        <div className="rounded-2xl p-6 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[var(--border-subtle)]">
             <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)] mb-2">
-                <Clock className="w-3.5 h-3.5" />
-                Live OPD Hours & Token System
-              </span>
               <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[var(--text-structure)]">
                 Daily Consultation Timings
               </h2>
@@ -183,7 +187,7 @@ export const HomePage: React.FC = () => {
             {CLINIC_DATA.opdSchedule.map((session) => (
               <div
                 key={session.id}
-                className="p-5 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2 card-hover"
+                className="p-5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2 card-hover"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
@@ -196,7 +200,7 @@ export const HomePage: React.FC = () => {
                 <div className="font-editorial text-xl font-bold text-[var(--text-structure)]">
                   {session.title}
                 </div>
-                <div className="text-lg font-extrabold text-[var(--accent-primary)]">
+                <div className="text-lg font-extrabold text-[var(--accent-primary)] tabular-nums">
                   {session.hours}
                 </div>
                 <p className="text-xs text-[var(--text-muted)] pt-1 border-t border-[var(--border-subtle)]">
@@ -213,12 +217,22 @@ export const HomePage: React.FC = () => {
                 Tokens are distributed 15 minutes before each session. Calling or requesting online before your visit avoids waiting room congestion.
               </span>
             </div>
-            <a
-              href={CLINIC_DATA.contact.phoneTel}
-              className="press-tactile font-bold text-[var(--text-structure)] hover:text-[var(--accent-primary)] shrink-0"
-            >
-              Call Desk: {CLINIC_DATA.contact.phoneDisplay}
-            </a>
+            <div className="flex items-center gap-2 shrink-0">
+              <a
+                href={CLINIC_DATA.contact.phoneTel}
+                className="press-tactile font-bold text-[var(--text-structure)] hover:text-[var(--accent-primary)] tabular-nums"
+              >
+                Call Desk: {CLINIC_DATA.contact.phoneDisplay}
+              </a>
+              <button
+                onClick={() => copyToClipboard(CLINIC_DATA.contact.phoneRaw, 'phone')}
+                className="press-tactile p-1 text-[var(--text-muted)] hover:text-[var(--text-structure)] cursor-pointer"
+                title="Copy phone number"
+                aria-label="Copy phone number"
+              >
+                {copiedField === 'phone' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -232,21 +246,17 @@ export const HomePage: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)] mb-2">
-              <HeartPulse className="w-3.5 h-3.5" />
-              Scope of Practice
-            </span>
             <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-[var(--text-structure)]">
               General Outpatient Consultations
             </h2>
             <p className="text-sm text-[var(--text-muted)] mt-1 max-w-xl">
-              We specialize in diagnosing and treating everyday medical conditions, managing chronic diseases, and preventive family health.
+              Specialized diagnosis and treatment for everyday acute conditions, chronic metabolic management, and routine family healthcare.
             </p>
           </div>
 
           <Link
             to="/services"
-            className="press-tactile self-start sm:self-end inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] hover:border-[var(--accent-primary)]"
+            className="press-tactile self-start sm:self-end inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] hover:border-[var(--accent-primary)]"
           >
             <span>View All Services & Inclusions</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -257,14 +267,14 @@ export const HomePage: React.FC = () => {
           {CLINIC_DATA.services.slice(0, 6).map((service) => (
             <div
               key={service.id}
-              className="rounded-3xl p-6 bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between card-hover shadow-xs"
+              className="rounded-2xl p-6 bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between card-hover shadow-xs"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent-primary)] bg-[var(--accent-subtle)] px-2.5 py-0.5 rounded-full">
                     {service.category}
                   </span>
-                  <span className="text-xs text-[var(--text-muted)] font-medium">
+                  <span className="text-xs text-[var(--text-muted)] font-medium tabular-nums">
                     {service.duration}
                   </span>
                 </div>
@@ -277,7 +287,7 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                <span className="text-[11px] text-[var(--text-structure)] font-medium">
+                <span className="text-[11px] text-[var(--text-structure)] font-medium tabular-nums">
                   Standard Fee: ₹400
                 </span>
                 <button
@@ -295,12 +305,9 @@ export const HomePage: React.FC = () => {
 
       {/* 5. APPOINTMENT WALKTHROUGH: 3 Simple Steps */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl p-8 sm:p-12 bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
+        <div className="rounded-2xl p-8 sm:p-12 bg-[var(--bg-surface)] border border-[var(--border-subtle)]">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-              Convenient & Transparent Process
-            </span>
-            <h2 className="font-editorial text-3xl font-bold text-[var(--text-structure)] mt-1">
+            <h2 className="font-editorial text-3xl font-bold text-[var(--text-structure)]">
               How Your Clinic Visit Works
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-2">
@@ -312,9 +319,9 @@ export const HomePage: React.FC = () => {
             {CLINIC_DATA.patientInstructions.appointmentProcess.map((step: any) => (
               <div
                 key={step.step}
-                className="p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-3 relative"
+                className="p-6 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-3 relative"
               >
-                <div className="w-9 h-9 rounded-xl bg-[var(--accent-primary)] text-white font-editorial font-bold text-lg flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-[var(--accent-primary)] text-white font-editorial font-bold text-lg flex items-center justify-center tabular-nums">
                   {step.step}
                 </div>
                 <h3 className="font-bold text-base text-[var(--text-structure)]">
@@ -328,7 +335,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* What to bring note */}
-          <div className="mt-8 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="mt-8 p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2.5 text-xs text-[var(--text-structure)]">
               <FileText className="w-5 h-5 text-[var(--accent-primary)] shrink-0" />
               <div>
@@ -339,20 +346,16 @@ export const HomePage: React.FC = () => {
               to="/services"
               className="press-tactile text-xs font-bold text-[var(--accent-primary)] hover:underline shrink-0"
             >
-              Read full preparation checklist →
+              Read full checklist →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 6. PATIENT REVIEWS & TRUST INDICATORS */}
+      {/* 6. PATIENT REVIEWS & TRUST INDICATORS (with real SVG stars) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)] mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              Patient Experiences
-            </span>
             <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-[var(--text-structure)]">
               Feedback from Our Patients
             </h2>
@@ -363,7 +366,7 @@ export const HomePage: React.FC = () => {
 
           <Link
             to="/reviews"
-            className="press-tactile self-start sm:self-end inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] hover:border-[var(--accent-primary)]"
+            className="press-tactile self-start sm:self-end inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] hover:border-[var(--accent-primary)]"
           >
             <span>Read All Verified Reviews</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -374,11 +377,16 @@ export const HomePage: React.FC = () => {
           {TESTIMONIALS.slice(0, 3).map((item) => (
             <div
               key={item.id}
-              className="rounded-3xl p-6 bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between card-hover shadow-xs"
+              className="rounded-2xl p-6 bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col justify-between card-hover shadow-xs"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-amber-500">★★★★★</span>
+                  {/* Calibrated SVG Stars (Craft Floor compliance) */}
+                  <div className="flex items-center gap-1 text-amber-500">
+                    {[...Array(item.rating)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                    ))}
+                  </div>
                   <span className="text-[11px] text-[var(--text-muted)]">{item.date}</span>
                 </div>
                 <p className="text-xs sm:text-sm text-[var(--text-structure)] leading-relaxed italic">
@@ -388,7 +396,7 @@ export const HomePage: React.FC = () => {
 
               <div className="pt-4 mt-4 border-t border-[var(--border-subtle)]">
                 <div className="font-bold text-xs text-[var(--text-structure)]">
-                  {item.patientName}, {item.age} yrs
+                  {item.patientName}, <span className="tabular-nums">{item.age} yrs</span>
                 </div>
                 <div className="text-[11px] text-[var(--text-muted)]">
                   Consulted for: <strong className="text-[var(--text-structure)]">{item.condition}</strong>
@@ -407,30 +415,38 @@ export const HomePage: React.FC = () => {
         </p>
       </section>
 
-      {/* 7. LOCATION & DIRECTIONS SNAPSHOT */}
+      {/* 7. LOCATION & DIRECTIONS SNAPSHOT with 1-Click Copy */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl p-6 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
+        <div className="rounded-2xl p-6 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Info */}
             <div className="lg:col-span-5 space-y-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)]">
-                <MapPin className="w-3.5 h-3.5" />
-                Clinic Location & Accessibility
-              </span>
               <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[var(--text-structure)]">
                 Easy to Reach on Ring Road
               </h2>
-              <div className="text-xs sm:text-sm text-[var(--text-soft)] space-y-2">
-                <p className="font-bold text-[var(--text-structure)]">
-                  {CLINIC_DATA.contact.addressLines[0]}
-                </p>
-                <p>{CLINIC_DATA.contact.addressLines[1]}</p>
-                <p>
-                  {CLINIC_DATA.contact.city}, {CLINIC_DATA.contact.state} – {CLINIC_DATA.contact.pincode}
-                </p>
+              <div className="text-xs sm:text-sm text-[var(--text-soft)] space-y-1.5 pt-1">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-bold text-[var(--text-structure)]">
+                      {CLINIC_DATA.contact.addressLines[0]}
+                    </p>
+                    <p>{CLINIC_DATA.contact.addressLines[1]}</p>
+                    <p>
+                      {CLINIC_DATA.contact.city}, {CLINIC_DATA.contact.state} – <span className="tabular-nums">{CLINIC_DATA.contact.pincode}</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(`${CLINIC_DATA.contact.addressLines[0]}, ${CLINIC_DATA.contact.addressLines[1]}, ${CLINIC_DATA.contact.city} - ${CLINIC_DATA.contact.pincode}`, 'address')}
+                    className="press-tactile p-2 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-structure)] shrink-0 cursor-pointer"
+                    title="Copy full address"
+                    aria-label="Copy clinic address"
+                  >
+                    {copiedField === 'address' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-xs space-y-1.5">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] text-xs space-y-1.5">
                 <div className="font-bold text-[var(--text-structure)]">Parking & Access:</div>
                 <p className="text-[11px] text-[var(--text-muted)]">
                   Ground-floor location with step-free wheelchair ramp. Ample dedicated two-wheeler and four-wheeler parking right in front of Shanti Vihar Complex.
@@ -442,14 +458,14 @@ export const HomePage: React.FC = () => {
                   href={CLINIC_DATA.contact.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="press-tactile px-5 py-2.5 rounded-full bg-[var(--text-structure)] text-[var(--bg-card)] text-xs font-bold hover:bg-[var(--accent-primary)] flex items-center gap-1.5"
+                  className="press-tactile px-5 py-2.5 rounded-xl bg-[var(--text-structure)] text-[var(--bg-card)] text-xs font-bold hover:bg-[var(--accent-primary)] flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
-                  <MapPin className="w-3.5 h-3.5" />
+                  <Navigation className="w-3.5 h-3.5" />
                   <span>Open Directions on Google Maps</span>
                 </a>
                 <Link
                   to="/timings"
-                  className="press-tactile px-5 py-2.5 rounded-full border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-structure)] hover:bg-[var(--bg-surface)]"
+                  className="press-tactile px-5 py-2.5 rounded-xl border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-structure)] hover:bg-[var(--bg-surface)]"
                 >
                   View Landmarks & Buses
                 </Link>
@@ -458,7 +474,7 @@ export const HomePage: React.FC = () => {
 
             {/* Map Embed Frame */}
             <div className="lg:col-span-7">
-              <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[var(--border-subtle)] shadow-xs bg-stone-200">
+              <div className="w-full h-80 sm:h-96 rounded-xl overflow-hidden border border-[var(--border-subtle)] shadow-xs bg-stone-200">
                 <iframe
                   title="Aarogya Family Clinic Google Maps Location"
                   src={CLINIC_DATA.contact.embedMapsUrl}
@@ -477,11 +493,8 @@ export const HomePage: React.FC = () => {
 
       {/* 8. BOTTOM CALL TO ACTION BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl p-8 sm:p-12 bg-[var(--text-structure)] text-[var(--bg-canvas)] text-center relative overflow-hidden shadow-2xl">
+        <div className="rounded-2xl p-8 sm:p-12 bg-[var(--text-structure)] text-[var(--bg-canvas)] text-center relative overflow-hidden shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-5 relative z-10">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[var(--accent-primary)] text-white">
-              Primary Care for All Ages
-            </span>
             <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-white">
               Need a doctor consultation today?
             </h2>
@@ -492,19 +505,19 @@ export const HomePage: React.FC = () => {
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={() => openAppointmentModal()}
-                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-2xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] cursor-pointer"
+                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] cursor-pointer"
               >
                 Request Appointment Slot
               </button>
               <a
                 href={CLINIC_DATA.contact.phoneTel}
-                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20 text-white font-bold text-sm text-center"
+                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white font-bold text-sm text-center tabular-nums"
               >
                 Call Clinic: {CLINIC_DATA.contact.phoneDisplay}
               </a>
             </div>
 
-            <p className="text-[11px] text-white/60 pt-2">
+            <p className="text-[11px] text-white/60 pt-2 tabular-nums">
               Morning OPD: 10:00 AM – 1:30 PM · Evening OPD: 5:30 PM – 9:00 PM (Mon–Sat)
             </p>
           </div>

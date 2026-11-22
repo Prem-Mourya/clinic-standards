@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { TESTIMONIALS, TESTIMONIALS_DISCLAIMER, type TestimonialItem } from '../data/testimonialsData';
 import { useClinic } from '../context/ClinicContext';
 import {
-  Sparkles,
-  CheckCircle2,
   Calendar,
-  ShieldCheck
+  ShieldCheck,
+  Star,
+  CheckCircle2
 } from 'lucide-react';
 
 export const ReviewsPage: React.FC = () => {
@@ -20,12 +20,8 @@ export const ReviewsPage: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
-      {/* Header */}
+      {/* Header without banned eyebrow */}
       <div className="max-w-3xl space-y-4">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)]">
-          <Sparkles className="w-3.5 h-3.5" />
-          Patient Feedback
-        </span>
         <h1 className="font-editorial text-4xl sm:text-5xl font-bold text-[var(--text-structure)] tracking-tight">
           Real feedback from our patients.
         </h1>
@@ -35,7 +31,7 @@ export const ReviewsPage: React.FC = () => {
       </div>
 
       {/* Verified Consent Policy Notice */}
-      <div className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs text-[var(--text-muted)]">
+      <div className="p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs text-[var(--text-muted)]">
         <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
         <div>
           <strong className="text-[var(--text-structure)]">Patient Consent & Clinical Transparency:</strong>{' '}
@@ -49,7 +45,7 @@ export const ReviewsPage: React.FC = () => {
           <button
             key={cat}
             onClick={() => setSelectedFilter(cat)}
-            className={`press-tactile px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer ${
+            className={`press-tactile px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
               selectedFilter === cat
                 ? 'bg-[var(--accent-primary)] text-white shadow-xs'
                 : 'bg-[var(--bg-card)] text-[var(--text-structure)] border border-[var(--border-subtle)] hover:bg-[var(--bg-surface)]'
@@ -65,11 +61,16 @@ export const ReviewsPage: React.FC = () => {
         {filtered.map((item) => (
           <div
             key={item.id}
-            className="rounded-3xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] flex flex-col justify-between card-hover"
+            className="rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] flex flex-col justify-between card-hover"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-amber-500">★★★★★</span>
+                {/* Real SVG Stars */}
+                <div className="flex items-center gap-1 text-amber-500">
+                  {[...Array(item.rating)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                  ))}
+                </div>
                 <span className="text-[11px] text-[var(--text-muted)]">{item.date}</span>
               </div>
 
@@ -84,7 +85,7 @@ export const ReviewsPage: React.FC = () => {
 
             <div className="pt-4 mt-6 border-t border-[var(--border-subtle)]">
               <div className="font-bold text-xs text-[var(--text-structure)]">
-                {item.patientName}, {item.age} yrs
+                {item.patientName}, <span className="tabular-nums">{item.age} yrs</span>
               </div>
               <div className="text-[11px] text-[var(--text-muted)]">
                 Condition: <strong className="text-[var(--text-structure)]">{item.condition}</strong>
@@ -106,7 +107,7 @@ export const ReviewsPage: React.FC = () => {
       </p>
 
       {/* Bottom CTA */}
-      <div className="rounded-3xl p-8 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center space-y-4">
+      <div className="rounded-2xl p-8 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center space-y-4">
         <h3 className="font-editorial text-2xl font-bold text-[var(--text-structure)]">
           Need a personalized medical opinion?
         </h3>
@@ -115,7 +116,7 @@ export const ReviewsPage: React.FC = () => {
         </p>
         <button
           onClick={() => openAppointmentModal()}
-          className="press-tactile px-6 py-3 rounded-full bg-[var(--accent-primary)] text-white text-xs font-bold hover:bg-[var(--accent-hover)] cursor-pointer inline-flex items-center gap-2"
+          className="press-tactile px-6 py-3 rounded-xl bg-[var(--accent-primary)] text-white text-xs font-bold hover:bg-[var(--accent-hover)] cursor-pointer inline-flex items-center gap-2"
         >
           <Calendar className="w-4 h-4" />
           <span>Request Consultation Slot</span>

@@ -1,50 +1,95 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CLINIC_DATA } from '../data/clinicData';
 import { useClinic } from '../context/ClinicContext';
-import { CheckCircle2, ShieldCheck, CreditCard, RefreshCw } from 'lucide-react';
+import { CheckCircle2, CreditCard, RefreshCw, Calendar } from 'lucide-react';
 
 export const FeeTransparencyCard: React.FC<{ className?: string }> = ({ className = '' }) => {
   const { openAppointmentModal } = useClinic();
   const fee = CLINIC_DATA.consultationFee;
+  const [activePlan, setActivePlan] = useState<'standard' | 'followup'>('standard');
+
+  const isFollowup = activePlan === 'followup';
+
+  const inclusions = isFollowup
+    ? [
+        "In-depth review of diagnostic blood tests, imaging or lab reports",
+        "Clinical assessment of fever response and recovery progression",
+        "Dosage titration and medication tolerance review",
+        "Updated digital prescription with next course instructions"
+      ]
+    : fee.inclusions;
 
   return (
-    <div className={`rounded-3xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)] ${className}`}>
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-[var(--border-subtle)]">
+    <div className={`rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] ${className}`}>
+      {/* Interactive Toggle for Patient Confidence */}
+      <div className="flex items-center justify-between flex-wrap gap-3 pb-6 border-b border-[var(--border-subtle)]">
         <div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[var(--accent-subtle)] text-[var(--accent-primary)] mb-2">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Transparent Pricing Commitment
-          </span>
           <h3 className="font-editorial text-2xl sm:text-3xl font-bold text-[var(--text-structure)]">
-            Standard Consultation Fee
+            Transparent Consultation Fees
           </h3>
           <p className="text-sm text-[var(--text-muted)] mt-1">
-            Complete outpatient evaluation with Dr. Arjun Mehta
+            Standard outpatient medical fee with clear 7-day follow-up policy
           </p>
         </div>
 
-        <div className="sm:text-right">
-          <div className="flex items-baseline gap-1 sm:justify-end">
-            <span className="text-4xl sm:text-5xl font-extrabold text-[var(--accent-primary)] tracking-tight">
-              {fee.symbol}{fee.amount}
+        <div className="inline-flex p-1 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)]">
+          <button
+            type="button"
+            onClick={() => setActivePlan('standard')}
+            className={`press-tactile px-3.5 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-colors ${
+              !isFollowup
+                ? 'bg-[var(--bg-card)] text-[var(--text-structure)] shadow-xs'
+                : 'text-[var(--text-muted)] hover:text-[var(--text-structure)]'
+            }`}
+          >
+            Standard Visit
+          </button>
+          <button
+            type="button"
+            onClick={() => setActivePlan('followup')}
+            className={`press-tactile px-3.5 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-colors ${
+              isFollowup
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-emerald-700 dark:text-emerald-400 hover:text-emerald-800'
+            }`}
+          >
+            7-Day Follow-Up (₹0)
+          </button>
+        </div>
+      </div>
+
+      {/* Price Display */}
+      <div className="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-subtle)]">
+        <div>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-4xl sm:text-5xl font-extrabold text-[var(--accent-primary)] tracking-tight tabular-nums">
+              {fee.symbol}{isFollowup ? '0' : fee.amount}
             </span>
-            <span className="text-sm text-[var(--text-muted)] font-medium">/ visit</span>
+            <span className="text-sm text-[var(--text-muted)] font-medium">
+              {isFollowup ? 'complimentary review' : '/ outpatient consultation'}
+            </span>
           </div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full mt-1.5 dark:text-emerald-300">
-            <RefreshCw className="w-3 h-3" />
-            <span>Follow-up: {fee.symbol}0 within {fee.followUpDays} days</span>
-          </div>
+          <p className="text-xs text-[var(--text-muted)] mt-1">
+            {isFollowup
+              ? 'Available for the same illness episode within 7 days of initial consultation.'
+              : 'Dedicated 15-minute examination and diagnosis by Dr. Arjun Mehta.'}
+          </p>
+        </div>
+
+        <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-500/10 px-3 py-1.5 rounded-full dark:text-emerald-300 shrink-0">
+          <RefreshCw className="w-3.5 h-3.5" />
+          <span className="tabular-nums">Follow-up: {fee.symbol}0 within {fee.followUpDays} days</span>
         </div>
       </div>
 
       {/* Inclusions list */}
       <div className="py-6">
         <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-structure)] mb-4">
-          What is included in every consultation:
+          {isFollowup ? 'Included in your free 7-day follow-up:' : 'Included in every standard consultation:'}
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          {fee.inclusions.map((item: string, idx: number) => (
-            <div key={idx} className="flex items-start gap-2.5 text-sm text-[var(--text-structure)]">
+          {inclusions.map((item: string, idx: number) => (
+            <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-structure)]">
               <CheckCircle2 className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
               <span>{item}</span>
             </div>
@@ -57,15 +102,16 @@ export const FeeTransparencyCard: React.FC<{ className?: string }> = ({ classNam
         <div className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
           <CreditCard className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
           <span>
-            Accepted at desk: <strong className="text-[var(--text-structure)]">{fee.paymentModes.join(', ')}</strong>
+            Accepted at clinic desk: <strong className="text-[var(--text-structure)]">{fee.paymentModes.join(', ')}</strong>
           </span>
         </div>
 
         <button
-          onClick={() => openAppointmentModal('General Consultation')}
-          className="press-tactile w-full md:w-auto px-6 py-2.5 rounded-full text-sm font-semibold bg-[var(--text-structure)] text-[var(--bg-card)] hover:bg-[var(--accent-primary)] cursor-pointer text-center"
+          onClick={() => openAppointmentModal(isFollowup ? '7-Day Follow-up Review' : 'General Consultation', isFollowup ? 'followup' : 'new')}
+          className="press-tactile w-full md:w-auto px-6 py-2.5 rounded-xl text-xs font-bold bg-[var(--text-structure)] text-[var(--bg-card)] hover:bg-[var(--accent-primary)] cursor-pointer text-center flex items-center justify-center gap-2"
         >
-          Request Consultation Slot
+          <Calendar className="w-3.5 h-3.5" />
+          <span>Request {isFollowup ? 'Free Follow-Up Slot' : 'Consultation Slot'}</span>
         </button>
       </div>
 

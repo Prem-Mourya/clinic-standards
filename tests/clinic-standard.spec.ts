@@ -27,7 +27,7 @@ test.describe('Aarogya Family Clinic (Master Template A)', () => {
     await expect(page).toHaveURL(`${BASE_URL}/services`);
     await expect(page.locator('h1')).toContainText('Evidence-based outpatient consultations');
     await expect(page.locator('text=Fever, Viral & Infection Management').first()).toBeVisible();
-    await expect(page.locator('text=Standard Consultation Fee').first()).toBeVisible();
+    await expect(page.locator('text=Consultation Fee').first()).toBeVisible();
     await expect(page.locator('text=What to Bring for Your Consultation').first()).toBeVisible();
 
     // Test service category filter
