@@ -394,35 +394,40 @@ export const HomePage: React.FC = () => {
       {/* 6. PATIENT REVIEWS: Split Editorial Showcase & Automated Smooth Card Deck */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Bold Editorial Typography + 3D Smile Coin + Pill Action */}
+          {/* Left Column: Follows Aarogya Clinic Editorial Typography System */}
           <div className="lg:col-span-5 space-y-6">
             <ScrollReveal direction="left">
               <div className="space-y-6">
-                {/* Headline Block with 3D Smile Coin (Styled after reference image) */}
-                <div className="relative inline-block pr-12 sm:pr-16">
-                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black italic tracking-tighter uppercase text-[var(--text-structure)] leading-[0.92]">
-                    FEEDBACK<br />
-                    FROM OUR<br />
-                    PATIENTS
+                {/* Category Pill Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/20">
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                  <span>Patient Trust & Experiences</span>
+                </div>
+
+                {/* Headline Block with Editorial Serif & 3D Smile Coin */}
+                <div className="relative inline-block pr-12 sm:pr-14">
+                  <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--text-structure)] leading-[1.14] tracking-tight">
+                    Feedback from <br />
+                    <span className="curved-underline text-[var(--accent-primary)]">Our Patients</span>
                   </h2>
 
                   {/* 3D Yellow Smile Coin / Sticker from Reference */}
-                  <div className="absolute -top-4 right-0 sm:-top-6 sm:-right-2 rotate-12 transition-transform duration-300 hover:rotate-6 hover:scale-105 pointer-events-none">
-                    <SmileBadgeIcon className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                  <div className="absolute -top-3 right-0 sm:-top-5 sm:-right-2 rotate-12 transition-transform duration-300 hover:rotate-6 hover:scale-105 pointer-events-none">
+                    <SmileBadgeIcon className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16" />
                   </div>
                 </div>
 
-                {/* Subtitle */}
-                <p className="text-base sm:text-lg text-[var(--text-muted)] font-medium leading-relaxed max-w-md">
-                  See for yourself — authentic recovery stories and clinical care experiences from patients and families in Indore.
+                {/* Subtitle following our typography */}
+                <p className="text-sm sm:text-base text-[var(--text-soft)] leading-relaxed max-w-md">
+                  Authentic recovery stories and outpatient care consultations shared with verified patient authorization. Clinical outcomes depend on individual adherence and health history.
                 </p>
 
-                {/* Pill CTA Button (Matching Reference) & Rating Details */}
+                {/* Pill CTA Button & Rating Details following our typography */}
                 <div className="space-y-4 pt-1">
                   <div>
                     <Link
                       to="/reviews"
-                      className="press-tactile inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[var(--text-structure)] text-[var(--bg-canvas)] text-xs sm:text-sm font-extrabold uppercase tracking-wider hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-md group"
+                      className="press-tactile inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[var(--text-structure)] text-[var(--bg-card)] text-xs sm:text-sm font-bold hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-xs group"
                     >
                       <span>Read All Verified Reviews</span>
                       <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
