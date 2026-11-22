@@ -53,7 +53,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   }, []);
 
   const getTransform = () => {
-    if (isVisible) return 'translate3d(0, 0, 0) scale(1)';
+    if (isVisible) return 'none';
     switch (direction) {
       case 'up':
         return `translate3d(0, ${distance}px, 0) scale(0.98)`;

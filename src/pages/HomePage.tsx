@@ -351,7 +351,7 @@ export const HomePage: React.FC = () => {
         </ScrollReveal>
       </section>
 
-      {/* 6. PATIENT REVIEWS: Modern Overlapping Card Deck with Smooth Sliding Animation */}
+      {/* 6. PATIENT REVIEWS: Scroll-Driven Overlapping Card Deck */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="up">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
@@ -372,14 +372,14 @@ export const HomePage: React.FC = () => {
               <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
-
-          {/* Interactive Overlapping Card Stack Slider */}
-          <OverlappingCardStack testimonials={TESTIMONIALS} allowViewToggle={true} />
-
-          <p className="text-[11px] text-center text-[var(--text-muted)] mt-6 italic">
-            * {TESTIMONIALS_DISCLAIMER}
-          </p>
         </ScrollReveal>
+
+        {/* Scroll-Driven Overlapping Card Stack Slider */}
+        <OverlappingCardStack testimonials={TESTIMONIALS} allowViewToggle={true} scrollDriven={true} />
+
+        <p className="text-[11px] text-center text-[var(--text-muted)] mt-6 italic">
+          * {TESTIMONIALS_DISCLAIMER}
+        </p>
       </section>
 
       {/* 7. LOCATION & DIRECTIONS SNAPSHOT with 1-Click Copy */}
