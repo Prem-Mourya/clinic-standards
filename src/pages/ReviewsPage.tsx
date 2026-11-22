@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { TESTIMONIALS, TESTIMONIALS_DISCLAIMER, type TestimonialItem } from '../data/testimonialsData';
 import { useClinic } from '../context/ClinicContext';
+import { PatientReviewsShowcase } from '../components/PatientReviewsShowcase';
 import {
-  OverlappingCardStack,
   SpotlightCard,
   ScrollReveal
 } from '../components/animations';
@@ -95,9 +95,15 @@ export const ReviewsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Reviews Display: Overlapping Card Deck or Staggered Spotlight Grid */}
+      {/* Reviews Display: Shared Editorial Showcase Component or Staggered Spotlight Grid */}
       {viewStyle === 'stack' ? (
-        <OverlappingCardStack testimonials={filtered} allowViewToggle={false} />
+        <PatientReviewsShowcase
+          testimonials={filtered}
+          ctaMode="modal"
+          ctaText="Request Consultation Slot"
+          showDisclaimer={false}
+          allowViewToggle={false}
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((item, idx) => (
