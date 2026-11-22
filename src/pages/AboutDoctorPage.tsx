@@ -3,7 +3,6 @@ import { CLINIC_DATA } from '../data/clinicData';
 import { useClinic } from '../context/ClinicContext';
 import {
   ShieldCheck,
-  Award,
   Clock,
   HeartPulse,
   CheckCircle2,
@@ -23,15 +22,15 @@ export const AboutDoctorPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left 5 Columns: Doctor Portrait */}
         <div className="lg:col-span-5">
-          <div className="rounded-3xl p-3 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)]">
-            <div className="aspect-4/5 rounded-2xl overflow-hidden bg-stone-200">
+          <div className="rounded-2xl p-3 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-elevated)]">
+            <div className="aspect-4/5 rounded-xl overflow-hidden bg-stone-200">
               <img
                 src={doc.photoUrl}
                 alt={`${doc.fullName} - General Physician`}
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <div className="mt-4 p-3 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-1 text-xs">
+            <div className="mt-4 p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-1 text-xs">
               <div className="flex items-center gap-2 font-bold text-[var(--text-structure)]">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 Verified Registration Notice
@@ -46,10 +45,6 @@ export const AboutDoctorPage: React.FC = () => {
         {/* Right 7 Columns: Credentials & Practice History */}
         <div className="lg:col-span-7 space-y-6">
           <div className="space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-subtle)] text-[var(--accent-primary)]">
-              <Award className="w-3.5 h-3.5" />
-              Doctor Profile & Credentials
-            </span>
             <h1 className="font-editorial text-4xl sm:text-5xl font-bold text-[var(--text-structure)] tracking-tight">
               Meet {doc.fullName}
             </h1>
@@ -59,12 +54,12 @@ export const AboutDoctorPage: React.FC = () => {
           </div>
 
           <p className="text-sm sm:text-base text-[var(--text-soft)] leading-relaxed">
-            With over <strong>{doc.experienceYears} years</strong> of clinical experience in hospital internal medicine and outpatient general practice, Dr. Arjun Mehta is dedicated to providing thorough, evidence-based care for individuals and multi-generational families.
+            With over <strong className="tabular-nums">{doc.experienceYears} years</strong> of clinical experience in hospital internal medicine and outpatient general practice, Dr. Arjun Mehta is dedicated to providing thorough, evidence-based care for individuals and multi-generational families.
           </p>
 
           {/* Qualifications & Council Registration Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <div className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-1">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-1">
               <div className="flex items-center gap-2 text-xs font-bold text-[var(--text-structure)]">
                 <GraduationCap className="w-4 h-4 text-[var(--accent-primary)]" />
                 Medical Qualifications
@@ -77,12 +72,12 @@ export const AboutDoctorPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-1">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-1">
               <div className="flex items-center gap-2 text-xs font-bold text-[var(--text-structure)]">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 Council Registration
               </div>
-              <p className="text-xs text-[var(--text-muted)] font-mono">
+              <p className="text-xs text-[var(--text-muted)] font-mono tabular-nums">
                 Reg No: {doc.registrationNumber}
               </p>
               <p className="text-[11px] text-[var(--text-structure)] font-medium">
@@ -90,7 +85,7 @@ export const AboutDoctorPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-1 sm:col-span-2">
+            <div className="p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-1 sm:col-span-2">
               <div className="flex items-center gap-2 text-xs font-bold text-[var(--text-structure)]">
                 <Building className="w-4 h-4 text-[var(--accent-primary)]" />
                 Hospital & Residency Experience
@@ -105,7 +100,7 @@ export const AboutDoctorPage: React.FC = () => {
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
               onClick={() => openAppointmentModal()}
-              className="press-tactile py-3 px-6 rounded-2xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              className="press-tactile py-3 px-6 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-bold text-sm hover:opacity-90 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Request Consultation with Dr. Mehta</span>
@@ -114,7 +109,7 @@ export const AboutDoctorPage: React.FC = () => {
               href={`https://wa.me/${CLINIC_DATA.contact.whatsappRaw}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="press-tactile py-3 px-6 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] font-bold text-sm hover:bg-[var(--bg-surface)] flex items-center justify-center gap-2 cursor-pointer"
+              className="press-tactile py-3 px-6 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] font-bold text-sm hover:bg-[var(--bg-surface)] flex items-center justify-center gap-2 cursor-pointer"
             >
               <MessageSquare className="w-4 h-4 text-emerald-600" />
               <span>WhatsApp Clinic</span>
@@ -124,12 +119,9 @@ export const AboutDoctorPage: React.FC = () => {
       </div>
 
       {/* 2. Practice Philosophy: The Anti-Polypharmacy Commitment */}
-      <section className="rounded-3xl p-8 sm:p-12 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
+      <section className="rounded-2xl p-8 sm:p-12 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
         <div className="max-w-3xl mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-            Consultation Philosophy
-          </span>
-          <h2 className="font-editorial text-3xl font-bold text-[var(--text-structure)] mt-1">
+          <h2 className="font-editorial text-3xl font-bold text-[var(--text-structure)]">
             Our 4 Core Consultation Principles
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-2">
@@ -138,7 +130,7 @@ export const AboutDoctorPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
+          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
             <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
               <Clock className="w-4 h-4 text-[var(--accent-primary)]" />
               1. 15-Minute Dedicated Consultations
@@ -148,7 +140,7 @@ export const AboutDoctorPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
+          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
             <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               2. Zero Tolerance for Polypharmacy
@@ -158,7 +150,7 @@ export const AboutDoctorPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
+          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
             <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
               <HeartPulse className="w-4 h-4 text-[var(--accent-primary)]" />
               3. Transparent Diagnostics
@@ -168,7 +160,7 @@ export const AboutDoctorPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
+          <div className="p-6 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] space-y-2.5">
             <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-structure)]">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               4. Free 7-Day Follow-Up Policy

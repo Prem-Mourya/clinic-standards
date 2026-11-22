@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CLINIC_DATA } from '../data/clinicData';
 import { useClinic } from '../context/ClinicContext';
 import { OpdLiveBadge } from '../components/OpdLiveBadge';
@@ -9,15 +9,25 @@ import {
   Bus,
   Accessibility,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Copy,
+  Check
 } from 'lucide-react';
 
 export const TimingsLocationPage: React.FC = () => {
-  const { openAppointmentModal } = useClinic();
+  const { openAppointmentModal, showToast } = useClinic();
+  const [copiedField, setCopiedField] = useState<'address' | 'phone' | null>(null);
+
+  const copyToClipboard = (text: string, field: 'address' | 'phone') => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    showToast(`Copied ${field === 'address' ? 'clinic address' : 'phone number'} to clipboard`);
+    setTimeout(() => setCopiedField(null), 2500);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
-      {/* Header */}
+      {/* Header without banned eyebrow */}
       <div className="max-w-3xl space-y-4">
         <div className="flex flex-wrap items-center gap-2.5">
           <OpdLiveBadge />
@@ -38,7 +48,7 @@ export const TimingsLocationPage: React.FC = () => {
         {CLINIC_DATA.opdSchedule.map((session) => (
           <div
             key={session.id}
-            className="rounded-3xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] flex flex-col justify-between space-y-4 card-hover"
+            className="rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)] flex flex-col justify-between space-y-4 card-hover"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -52,7 +62,7 @@ export const TimingsLocationPage: React.FC = () => {
               <h2 className="font-editorial text-2xl font-bold text-[var(--text-structure)]">
                 {session.title}
               </h2>
-              <div className="text-2xl font-extrabold text-[var(--text-structure)] mt-2">
+              <div className="text-2xl font-extrabold text-[var(--text-structure)] mt-2 tabular-nums">
                 {session.hours}
               </div>
               <p className="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
@@ -73,32 +83,41 @@ export const TimingsLocationPage: React.FC = () => {
         ))}
       </div>
 
-      {/* 2. Location & Interactive Map Section */}
-      <div className="rounded-3xl p-6 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
+      {/* 2. Location & Interactive Map Section with 1-Click Copy */}
+      <div className="rounded-2xl p-6 sm:p-10 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-[var(--shadow-soft)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Address & Travel Info */}
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-                Address & Landmarks
-              </span>
               <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[var(--text-structure)]">
                 How to Reach Us
               </h2>
               <div className="text-xs sm:text-sm text-[var(--text-soft)] space-y-1.5 pt-1">
-                <p className="font-bold text-[var(--text-structure)]">
-                  {CLINIC_DATA.contact.addressLines[0]}
-                </p>
-                <p>{CLINIC_DATA.contact.addressLines[1]}</p>
-                <p>
-                  {CLINIC_DATA.contact.city}, {CLINIC_DATA.contact.state} – {CLINIC_DATA.contact.pincode}
-                </p>
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-bold text-[var(--text-structure)]">
+                      {CLINIC_DATA.contact.addressLines[0]}
+                    </p>
+                    <p>{CLINIC_DATA.contact.addressLines[1]}</p>
+                    <p>
+                      {CLINIC_DATA.contact.city}, {CLINIC_DATA.contact.state} – <span className="tabular-nums">{CLINIC_DATA.contact.pincode}</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(`${CLINIC_DATA.contact.addressLines[0]}, ${CLINIC_DATA.contact.addressLines[1]}, ${CLINIC_DATA.contact.city} - ${CLINIC_DATA.contact.pincode}`, 'address')}
+                    className="press-tactile p-2 rounded-lg border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-structure)] shrink-0 cursor-pointer"
+                    title="Copy full address"
+                    aria-label="Copy clinic address"
+                  >
+                    {copiedField === 'address' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Travel & Accessibility Info */}
             <div className="space-y-3">
-              <div className="p-3.5 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs">
                 <Car className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
                 <div>
                   <div className="font-bold text-[var(--text-structure)]">Vehicle Parking</div>
@@ -108,7 +127,7 @@ export const TimingsLocationPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs">
                 <Bus className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
                 <div>
                   <div className="font-bold text-[var(--text-structure)]">Public Transit</div>
@@ -118,7 +137,7 @@ export const TimingsLocationPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-[var(--bg-canvas)] border border-[var(--border-subtle)] flex items-start gap-3 text-xs">
                 <Accessibility className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <div className="font-bold text-[var(--text-structure)]">Wheelchair Accessibility</div>
@@ -135,7 +154,7 @@ export const TimingsLocationPage: React.FC = () => {
                 href={CLINIC_DATA.contact.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="press-tactile py-3 px-5 rounded-2xl bg-[var(--accent-primary)] text-white text-xs font-bold hover:bg-[var(--accent-hover)] flex items-center justify-center gap-2 shadow-xs"
+                className="press-tactile py-3 px-5 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] text-xs font-bold hover:opacity-90 flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 <span>Navigate via Google Maps</span>
@@ -143,7 +162,7 @@ export const TimingsLocationPage: React.FC = () => {
 
               <a
                 href={CLINIC_DATA.contact.phoneTel}
-                className="press-tactile py-3 px-5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] text-xs font-bold hover:bg-[var(--bg-surface)] flex items-center justify-center gap-2"
+                className="press-tactile py-3 px-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-structure)] text-xs font-bold hover:bg-[var(--bg-surface)] flex items-center justify-center gap-2 tabular-nums"
               >
                 <Phone className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                 <span>Call Desk: {CLINIC_DATA.contact.phoneDisplay}</span>
@@ -153,7 +172,7 @@ export const TimingsLocationPage: React.FC = () => {
 
           {/* Embedded Google Map */}
           <div className="lg:col-span-7">
-            <div className="w-full h-96 sm:h-[450px] rounded-2xl overflow-hidden border border-[var(--border-subtle)] shadow-xs bg-stone-200">
+            <div className="w-full h-96 sm:h-[450px] rounded-xl overflow-hidden border border-[var(--border-subtle)] shadow-xs bg-stone-200">
               <iframe
                 title="Aarogya Family Clinic Google Maps Location"
                 src={CLINIC_DATA.contact.embedMapsUrl}
@@ -170,7 +189,7 @@ export const TimingsLocationPage: React.FC = () => {
       </div>
 
       {/* 3. Walk-In Policy & Token Priority */}
-      <section className="rounded-3xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] text-xs text-[var(--text-structure)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <section className="rounded-2xl p-6 sm:p-8 bg-[var(--bg-card)] border border-[var(--border-subtle)] text-xs text-[var(--text-structure)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-[var(--accent-primary)] shrink-0 mt-0.5" />
           <div>
@@ -185,7 +204,7 @@ export const TimingsLocationPage: React.FC = () => {
 
         <button
           onClick={() => openAppointmentModal()}
-          className="press-tactile px-5 py-2.5 rounded-full bg-[var(--text-structure)] text-[var(--bg-card)] font-bold text-xs hover:bg-[var(--accent-primary)] shrink-0 cursor-pointer"
+          className="press-tactile px-5 py-2.5 rounded-xl bg-[var(--text-structure)] text-[var(--bg-card)] font-bold text-xs hover:bg-[var(--accent-primary)] shrink-0 cursor-pointer"
         >
           Request Priority Token
         </button>

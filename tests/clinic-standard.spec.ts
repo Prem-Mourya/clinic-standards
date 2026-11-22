@@ -27,7 +27,7 @@ test.describe('Aarogya Family Clinic (Master Template A)', () => {
     await expect(page).toHaveURL(`${BASE_URL}/services`);
     await expect(page.locator('h1')).toContainText('Evidence-based outpatient consultations');
     await expect(page.locator('text=Fever, Viral & Infection Management').first()).toBeVisible();
-    await expect(page.locator('text=Standard Consultation Fee').first()).toBeVisible();
+    await expect(page.locator('text=Consultation Fee').first()).toBeVisible();
     await expect(page.locator('text=What to Bring for Your Consultation').first()).toBeVisible();
 
     // Test service category filter
@@ -128,13 +128,20 @@ test.describe('Aarogya Family Clinic (Master Template A)', () => {
     await expect(waLink).toHaveAttribute('href', /wa\.me\/919826012345/);
   });
 
-  test('Signature Theme Switcher updates document theme token dynamically', async ({ page }) => {
+  test('Signature Theme Switcher updates document theme token dynamically with all 12 themes', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE_URL, { waitUntil: 'networkidle' });
 
-    // Open Theme Switcher
+    // Verify navbar logo has only clinic name
+    const navLogo = page.locator('header a[href="/"]').first();
+    await expect(navLogo).toBeVisible();
+    await expect(navLogo).toContainText('Aarogya Family Clinic');
+    await expect(navLogo).not.toContainText('MBBS, MD');
+
+    // Open Theme Switcher (icon on top banner)
     await page.locator('button[aria-label="Select signature theme"]').click();
     await expect(page.locator('text=SiteForge Theme Gallery')).toBeVisible();
+    await expect(page.locator('text=12 Themes')).toBeVisible();
 
     // Select Quiet Luxury Alabaster
     await page.locator('button:has-text("Quiet Luxury Alabaster")').click();
@@ -144,6 +151,19 @@ test.describe('Aarogya Family Clinic (Master Template A)', () => {
     await page.locator('button[aria-label="Select signature theme"]').click();
     await page.locator('button:has-text("Deep Moss & Lemon Laser")').click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'deep-moss');
+    await expect(page.locator('html')).toHaveClass(/dark/);
+
+    // Select Midnight Obsidian (Dark theme)
+    await page.locator('button[aria-label="Select signature theme"]').click();
+    await page.locator('button:has-text("Midnight Obsidian")').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'midnight-obsidian');
+    await expect(page.locator('html')).toHaveClass(/dark/);
+
+    // Select Cobalt Runway
+    await page.locator('button[aria-label="Select signature theme"]').click();
+    await page.locator('button:has-text("Cobalt Runway")').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'cobalt-runway');
+    await expect(page.locator('html')).not.toHaveClass(/dark/);
 
     // Revert to Warm Editorial Tech
     await page.locator('button[aria-label="Select signature theme"]').click();

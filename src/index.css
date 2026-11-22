@@ -1,82 +1,334 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
-  :root {
+  /* ==========================================================================
+     Theme 1: Warm Editorial Tech (Baseline Default)
+     60% Canvas / Surface: Cream · Card White · Warm Muted
+     30% Structure / Typography: Ink Black · Soft Charcoal
+     10% Brand Accent: Burnt Orange
+     ========================================================================== */
+  :root,
+  [data-theme="warm-editorial"] {
     --font-heading: 'Playfair Display', Georgia, serif;
     --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
-    /* Default Signature Theme: Warm Editorial Tech */
-    /* 60% Canvas / Surface */
     --bg-canvas: #F3EEE3;
     --bg-card: #FFFFFF;
     --bg-surface: #E8E2D5;
     --bg-subtle: #FAF7F2;
 
-    /* 30% Structure / Typography */
     --text-structure: #111111;
     --text-soft: #2A2A2A;
     --text-muted: #666666;
 
-    /* 10% High-Impact Accent */
     --accent-primary: #D9541E;
     --accent-hover: #BF4515;
+    --accent-foreground: #FFFFFF;
     --accent-subtle: rgba(217, 84, 30, 0.12);
     --border-subtle: rgba(17, 17, 17, 0.12);
     --border-card: rgba(17, 17, 17, 0.08);
 
-    /* Shadow tokens */
-    --shadow-soft: 0 4px 20px -2px rgba(17, 17, 17, 0.05), 0 2px 6px -1px rgba(17, 17, 17, 0.03);
-    --shadow-elevated: 0 12px 32px -4px rgba(17, 17, 17, 0.08), 0 4px 12px -2px rgba(17, 17, 17, 0.04);
+    --shadow-soft: 0 4px 18px -2px rgba(17, 17, 17, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(17, 17, 17, 0.09);
   }
 
-  /* Theme 2: Quiet Luxury Alabaster */
-  [data-theme="quiet-luxury"] {
-    --bg-canvas: #F7F5F0;
-    --bg-card: #FFFFFF;
-    --bg-surface: #ECE7DE;
-    --bg-subtle: #FAF9F6;
-    --text-structure: #2D2A26;
-    --text-soft: #45403B;
-    --text-muted: #6E6760;
-    --accent-primary: #C5A059;
-    --accent-hover: #B28D44;
-    --accent-subtle: rgba(197, 160, 89, 0.16);
-    --border-subtle: rgba(45, 42, 38, 0.12);
-    --border-card: rgba(45, 42, 38, 0.08);
-  }
-
-  /* Theme 3: Modernist Mineral */
-  [data-theme="modernist-mineral"] {
-    --bg-canvas: #EFEFEA;
-    --bg-card: #FFFFFF;
-    --bg-surface: #E4E4DD;
-    --bg-subtle: #F8F8F5;
-    --text-structure: #1D2220;
-    --text-soft: #353C39;
-    --text-muted: #606965;
-    --accent-primary: #EA580C;
-    --accent-hover: #C2410C;
-    --accent-subtle: rgba(234, 88, 12, 0.14);
-    --border-subtle: rgba(29, 34, 32, 0.12);
-    --border-card: rgba(29, 34, 32, 0.08);
-  }
-
-  /* Theme 4: Deep Moss & Lemon Laser (Dark Mode Modern) */
+  /* ==========================================================================
+     Theme 2: Deep Moss & Lemon Laser (Modern Dark Mode)
+     60% Base / Canvas: Deep Moss · Card Dark Moss
+     30% Structure / Typography: Fossil Grey · Soft Sage
+     10% Brand Accent: Lemon Laser (High contrast with dark foreground)
+     ========================================================================== */
   [data-theme="deep-moss"] {
     --bg-canvas: #26332B;
     --bg-card: #1E2822;
     --bg-surface: #17201B;
     --bg-subtle: #2B3A31;
+
     --text-structure: #F5F7F6;
     --text-soft: #E2DFD8;
     --text-muted: #A3AFA7;
+
     --accent-primary: #FFE21F;
     --accent-hover: #E5CA14;
+    --accent-foreground: #17201B;
     --accent-subtle: rgba(255, 226, 31, 0.16);
     --border-subtle: rgba(255, 255, 255, 0.14);
     --border-card: rgba(255, 255, 255, 0.08);
+
     --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
-    --shadow-elevated: 0 12px 32px -4px rgba(0, 0, 0, 0.45);
+    --shadow-elevated: 0 16px 36px -4px rgba(0, 0, 0, 0.45);
+  }
+
+  /* ==========================================================================
+     Theme 3: Avocado, Dark Walnut & Peony Neon
+     60% Base / Canvas: Warm Linen · Pure White Card
+     30% Structure / Typography: Dark Walnut · Espresso
+     10% Brand Accent: Peony Neon
+     ========================================================================== */
+  [data-theme="avocado-walnut"] {
+    --bg-canvas: #F6F5EE;
+    --bg-card: #FFFFFF;
+    --bg-surface: #EAE7DC;
+    --bg-subtle: #FAF9F5;
+
+    --text-structure: #2D201A;
+    --text-soft: #42322A;
+    --text-muted: #6B7743;
+
+    --accent-primary: #FF3D96;
+    --accent-hover: #E02980;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(255, 61, 150, 0.14);
+    --border-subtle: rgba(45, 32, 26, 0.12);
+    --border-card: rgba(45, 32, 26, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(45, 32, 26, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(45, 32, 26, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 4: Quiet Luxury Alabaster (Alabaster & Antique Brass)
+     60% Base / Canvas: Warm Alabaster · Card White
+     30% Structure / Typography: Deep Espresso · Smoked Taupe
+     10% Brand Accent: Antique Brass
+     ========================================================================== */
+  [data-theme="quiet-luxury"] {
+    --bg-canvas: #F7F5F0;
+    --bg-card: #FFFFFF;
+    --bg-surface: #ECE7DE;
+    --bg-subtle: #FAF9F6;
+
+    --text-structure: #2D2A26;
+    --text-soft: #45403B;
+    --text-muted: #6E6760;
+
+    --accent-primary: #C5A059;
+    --accent-hover: #B28D44;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(197, 160, 89, 0.16);
+    --border-subtle: rgba(45, 42, 38, 0.12);
+    --border-card: rgba(45, 42, 38, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(45, 42, 38, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(45, 42, 38, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 5: Midnight Obsidian & Champagne (Cinematic Dark Luxury)
+     60% Base / Background: Midnight Obsidian · Deep Slate Card
+     30% Structure / Typography: Pale Champagne · Muted Steel
+     10% Brand Accent: Brushed Gold
+     ========================================================================== */
+  [data-theme="midnight-obsidian"] {
+    --bg-canvas: #0B0F12;
+    --bg-card: #141A20;
+    --bg-surface: #070A0D;
+    --bg-subtle: #1C242C;
+
+    --text-structure: #E2D9CE;
+    --text-soft: #C9C0B5;
+    --text-muted: #9BA1A6;
+
+    --accent-primary: #D4AF37;
+    --accent-hover: #BF9B2D;
+    --accent-foreground: #0B0F12;
+    --accent-subtle: rgba(212, 175, 55, 0.18);
+    --border-subtle: rgba(226, 217, 206, 0.15);
+    --border-card: rgba(226, 217, 206, 0.08);
+
+    --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+    --shadow-elevated: 0 16px 36px -4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* ==========================================================================
+     Theme 6: Cobalt Runway (Chalk Concrete & Hyper Cobalt)
+     60% Base / Canvas: Chalk Concrete · Pure White Card
+     30% Structure / Typography: Pitch Ink · Deep Slate
+     10% Brand Accent: Hyper Cobalt
+     ========================================================================== */
+  [data-theme="cobalt-runway"] {
+    --bg-canvas: #EAEAE7;
+    --bg-card: #FFFFFF;
+    --bg-surface: #DFDFDA;
+    --bg-subtle: #F5F5F2;
+
+    --text-structure: #0A0A0A;
+    --text-soft: #1F1F1F;
+    --text-muted: #5A5A58;
+
+    --accent-primary: #002FA7;
+    --accent-hover: #002280;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(0, 47, 167, 0.12);
+    --border-subtle: rgba(10, 10, 10, 0.12);
+    --border-card: rgba(10, 10, 10, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(10, 10, 10, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(10, 10, 10, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 7: Parisian Atelier (Raw Umber & Terracotta)
+     60% Base / Canvas: Bone White · Canvas Beige
+     30% Structure / Typography: Raw Umber · Warm Charcoal
+     10% Brand Accent: Burnt Terracotta
+     ========================================================================== */
+  [data-theme="parisian-atelier"] {
+    --bg-canvas: #FAF8F5;
+    --bg-card: #FFFFFF;
+    --bg-surface: #F0ECE4;
+    --bg-subtle: #FDFCFA;
+
+    --text-structure: #4A4238;
+    --text-soft: #2B2621;
+    --text-muted: #7E7365;
+
+    --accent-primary: #9E4733;
+    --accent-hover: #853A28;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(158, 71, 51, 0.14);
+    --border-subtle: rgba(74, 66, 56, 0.14);
+    --border-card: rgba(74, 66, 56, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(74, 66, 56, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(74, 66, 56, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 8: Digital Alpine (Glacier Mist & Ultramarine)
+     60% Base / Canvas: Frost White · Glacier Ice
+     30% Structure / Typography: Deep Abyss Navy · Slate Blue
+     10% Brand Accent: Ultramarine
+     ========================================================================== */
+  [data-theme="digital-alpine"] {
+    --bg-canvas: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-surface: #EEF2F6;
+    --bg-subtle: #FFFFFF;
+
+    --text-structure: #091E3A;
+    --text-soft: #1E293B;
+    --text-muted: #64748B;
+
+    --accent-primary: #1855F4;
+    --accent-hover: #0F44CC;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(24, 85, 244, 0.12);
+    --border-subtle: rgba(9, 30, 58, 0.12);
+    --border-card: rgba(9, 30, 58, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(9, 30, 58, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(9, 30, 58, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 9: Kyoto Cedar & Vermilion Red
+     60% Base / Canvas: Washi Paper · Sand
+     30% Structure / Typography: Charred Cedar · Dark Moss Ash
+     10% Brand Accent: Vermilion Red
+     ========================================================================== */
+  [data-theme="kyoto-cedar"] {
+    --bg-canvas: #F5F2EB;
+    --bg-card: #FFFFFF;
+    --bg-surface: #EBE5D8;
+    --bg-subtle: #FAF8F3;
+
+    --text-structure: #201E1D;
+    --text-soft: #3C3935;
+    --text-muted: #6E6A64;
+
+    --accent-primary: #E63926;
+    --accent-hover: #C5221F;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(230, 57, 38, 0.14);
+    --border-subtle: rgba(32, 30, 29, 0.12);
+    --border-card: rgba(32, 30, 29, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(32, 30, 29, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(32, 30, 29, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 10: Cyber Primitivism (Sunbaked Clay & Electric Azure)
+     60% Base / Canvas: Sun-Bleached Sand · Pure White Card
+     30% Structure / Typography: Deep Pitch · Smoked Umber
+     10% Brand Accent: Electric Azure
+     ========================================================================== */
+  [data-theme="cyber-primitivism"] {
+    --bg-canvas: #F9F6F0;
+    --bg-card: #FFFFFF;
+    --bg-surface: #EFE9DF;
+    --bg-subtle: #FCFAF6;
+
+    --text-structure: #0D0C0B;
+    --text-soft: #2B2621;
+    --text-muted: #6A625B;
+
+    --accent-primary: #0097B2;
+    --accent-hover: #007C92;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(0, 151, 178, 0.14);
+    --border-subtle: rgba(13, 12, 11, 0.12);
+    --border-card: rgba(13, 12, 11, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(13, 12, 11, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(13, 12, 11, 0.09);
+  }
+
+  /* ==========================================================================
+     Theme 11: Nocturne Velvet & Electric Lilac (Dark Luminescent)
+     60% Base / Canvas: Deep Velvet Violet · Smoked Plum Card
+     30% Structure / Typography: Pale Lavender Fog · Muted Mauve
+     10% Brand Accent: Electric Lilac
+     ========================================================================== */
+  [data-theme="nocturne-velvet"] {
+    --bg-canvas: #0D0B14;
+    --bg-card: #1A1624;
+    --bg-surface: #14111E;
+    --bg-subtle: #231E30;
+
+    --text-structure: #D8D4E2;
+    --text-soft: #EDEAF2;
+    --text-muted: #938CA0;
+
+    --accent-primary: #A855F7;
+    --accent-hover: #9333EA;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(168, 85, 247, 0.2);
+    --border-subtle: rgba(216, 212, 226, 0.15);
+    --border-card: rgba(216, 212, 226, 0.08);
+
+    --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+    --shadow-elevated: 0 16px 36px -4px rgba(0, 0, 0, 0.6);
+  }
+
+  /* ==========================================================================
+     Theme 12: Modernist Mineral (Mineral Mist & Persimmon)
+     60% Base / Canvas: Mineral Mist · Soft Pebble Card
+     30% Structure / Typography: Smoked Iron · Deep Basalt
+     10% Brand Accent: Persimmon Orange
+     ========================================================================== */
+  [data-theme="modernist-mineral"] {
+    --bg-canvas: #EFEFEA;
+    --bg-card: #FFFFFF;
+    --bg-surface: #E4E4DD;
+    --bg-subtle: #F8F8F5;
+
+    --text-structure: #1D2220;
+    --text-soft: #353C39;
+    --text-muted: #606965;
+
+    --accent-primary: #EA580C;
+    --accent-hover: #C2410C;
+    --accent-foreground: #FFFFFF;
+    --accent-subtle: rgba(234, 88, 12, 0.14);
+    --border-subtle: rgba(29, 34, 32, 0.12);
+    --border-card: rgba(29, 34, 32, 0.08);
+
+    --shadow-soft: 0 4px 18px -2px rgba(29, 34, 32, 0.06);
+    --shadow-elevated: 0 16px 36px -6px rgba(29, 34, 32, 0.09);
   }
 
   html, body, #root {
@@ -87,6 +339,7 @@
     color: var(--text-structure);
     font-family: var(--font-body);
     transition: background-color 200ms ease, color 200ms ease;
+    caret-color: var(--accent-primary);
   }
 
   html {
@@ -116,10 +369,10 @@
     background: var(--accent-primary);
   }
 
-  /* Focus styling */
+  /* Focus styling with clear offset ring */
   :focus-visible {
     outline: 2px solid var(--accent-primary);
-    outline-offset: 2px;
+    outline-offset: 3px;
   }
 
   /* Text selection */
@@ -130,7 +383,7 @@
 }
 
 /* ==========================================================================
-   Emil Kowalski Design Engineering Utilities (emil-design-eng)
+   Emil Kowalski Design Engineering Utilities (emil-design-eng) & Craft Floor
    Strict composite-only transitions, tactile press scaling, natural scales
    ========================================================================== */
 
@@ -188,12 +441,19 @@
 }
 
 .animate-pulse-dot {
-  animation: pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulseDot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Editorial Serif Headings */
+/* Editorial Serif Headings: balanced, tracked cleanly */
 .font-editorial {
   font-family: var(--font-heading);
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+/* Numeric alignment for currency, timings, dates */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Custom Editorial Hand-drawn underline */
@@ -211,4 +471,23 @@
   height: 6px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 Q 50 1 98 9' stroke='%23D9541E' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center bottom;
   background-size: 100% 100%;
+}
+
+/* Respect user's motion preferences (Accessibility & Craft Floor) */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-pulse-dot {
+    animation: none !important;
+  }
+  .press-tactile:active {
+    transform: none !important;
+  }
+  .card-hover:hover {
+    transform: none !important;
+  }
 }

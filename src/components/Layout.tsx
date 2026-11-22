@@ -37,8 +37,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg-canvas)] text-[var(--text-structure)]">
-      {/* 1. Top Bar: Emergency Disclaimer & Direct Phone */}
-      <div className="bg-[var(--text-structure)] text-[var(--bg-canvas)] text-xs py-2 px-4 sm:px-6">
+      {/* 1. Top Bar: Emergency Disclaimer, Direct Phone & Brand Theme Gallery (Above Banner) */}
+      <div className="relative z-50 bg-stone-900 dark:bg-[var(--bg-card)] border-b border-black/20 dark:border-[var(--border-subtle)] text-stone-300 dark:text-[var(--text-muted)] text-xs py-2 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-ping" />
@@ -46,7 +46,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               Direct Desk:{' '}
               <a
                 href={CLINIC_DATA.contact.phoneTel}
-                className="font-bold text-white hover:underline ml-1"
+                className="font-bold text-white dark:text-[var(--text-structure)] hover:underline ml-1"
               >
                 {CLINIC_DATA.contact.phoneDisplay}
               </a>
@@ -55,8 +55,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <span className="opacity-80 hidden sm:inline">{CLINIC_DATA.contact.landmark}</span>
           </div>
 
-          <div className="flex items-center gap-3 text-[11px] opacity-80">
-            <span className="hidden md:inline">Outpatient Clinic Hours: Mon–Sat 10:00 AM – 1:30 PM & 5:30 PM – 9:00 PM</span>
+          <div className="flex items-center gap-3 text-[11px]">
+            <span className="hidden md:inline opacity-80">
+              Outpatient Clinic Hours: Mon–Sat 10:00 AM – 1:30 PM & 5:30 PM – 9:00 PM
+            </span>
             <a
               href={`https://wa.me/${CLINIC_DATA.contact.whatsappRaw}`}
               target="_blank"
@@ -66,32 +68,28 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <MessageSquare className="w-3 h-3" />
               WhatsApp Clinic
             </a>
+            <span className="opacity-30 hidden sm:inline">|</span>
+            {/* Theme Selector Icon-Only Button on Top Banner */}
+            <ThemeSwitcher iconOnly />
           </div>
         </div>
       </div>
 
-      {/* 2. Main Navigation Header */}
+      {/* 2. Main Navigation Header: Dedicated to Website Content for Clients */}
       <header className="sticky top-0 z-40 bg-[var(--bg-canvas)]/90 backdrop-blur-md border-b border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Logo & Identity */}
+            {/* Logo & Identity: Clinic Name only */}
             <Link to="/" className="flex items-center gap-3 press-tactile">
-              <div className="w-11 h-11 rounded-2xl bg-[var(--text-structure)] text-[var(--bg-card)] flex items-center justify-center shadow-xs">
-                <Stethoscope className="w-6 h-6 text-[var(--accent-primary)]" />
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[var(--text-structure)] text-[var(--bg-card)] flex items-center justify-center shadow-xs">
+                <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--accent-primary)]" />
               </div>
-              <div>
-                <div className="font-editorial text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-structure)] leading-none">
-                  {CLINIC_DATA.name}
-                </div>
-                <div className="text-[11px] sm:text-xs text-[var(--text-muted)] font-medium mt-1 flex items-center gap-1.5">
-                  <span>{CLINIC_DATA.doctor.fullName}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="text-[var(--accent-primary)] font-semibold">{CLINIC_DATA.doctor.credentials}</span>
-                </div>
-              </div>
+              <span className="font-editorial text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-structure)] leading-none">
+                {CLINIC_DATA.name}
+              </span>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation: Client-Facing Content */}
             <nav className="hidden xl:flex items-center gap-1">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
@@ -111,19 +109,17 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               })}
             </nav>
 
-            {/* Header Right Actions */}
+            {/* Header Right Actions: Website Content Only */}
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="hidden lg:block">
                 <OpdLiveBadge showDetails={false} />
               </div>
 
-              <ThemeSwitcher />
-
               <button
                 onClick={() => openAppointmentModal()}
                 className="press-tactile hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-[var(--text-structure)] text-[var(--bg-card)] hover:bg-[var(--accent-primary)] cursor-pointer shadow-xs"
               >
-                <Calendar className="w-3.5 h-3.5" />
+                <Calendar className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                 <span>Book Visit</span>
               </button>
 
@@ -176,7 +172,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   setMobileMenuOpen(false);
                   openAppointmentModal();
                 }}
-                className="press-tactile w-full py-3 rounded-2xl bg-[var(--accent-primary)] text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                className="press-tactile w-full py-3 rounded-2xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-bold text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 Request Consultation Slot
@@ -236,12 +232,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
       {/* 4. Comprehensive Authority Footer */}
       <footer className="bg-[var(--bg-card)] border-t border-[var(--border-subtle)] mt-20 pb-16 sm:pb-8">
-        {/* Emergency Triage Notice */}
-        <div className="bg-amber-500/10 border-b border-amber-500/20 py-3 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto flex items-start sm:items-center gap-2.5 text-xs text-amber-900 dark:text-amber-200">
+        {/* Emergency Triage Notice with High-Contrast Legible Colors */}
+        <div className="bg-amber-500/15 dark:bg-amber-950/40 border-b border-amber-600/30 py-3 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto flex items-start sm:items-center gap-2.5 text-xs text-amber-950 dark:text-amber-100">
             <AlertTriangle className="w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
-            <div>
-              <strong>Emergency Medical Notice:</strong> {CLINIC_DATA.contact.emergencyNotice}
+            <div className="leading-relaxed">
+              <strong className="font-bold text-amber-950 dark:text-amber-200">Emergency Medical Notice:</strong>{' '}
+              <span>{CLINIC_DATA.contact.emergencyNotice}</span>
             </div>
           </div>
         </div>
