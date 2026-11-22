@@ -443,14 +443,14 @@ export const HomePage: React.FC = () => {
             </ScrollReveal>
           </div>
 
-          {/* Right Column: Automated Smooth Overlapping Card Deck */}
-          <div className="lg:col-span-7">
+          {/* Right Column: Automated Smooth Overlapping Card Deck (1 Full Card + 1 Half Card) */}
+          <div className="lg:col-span-7 overflow-hidden">
             <ScrollReveal direction="right">
               <OverlappingCardStack
                 testimonials={TESTIMONIALS}
                 allowViewToggle={true}
                 autoPlay={true}
-                autoPlayInterval={4200}
+                autoPlayInterval={4400}
               />
             </ScrollReveal>
           </div>

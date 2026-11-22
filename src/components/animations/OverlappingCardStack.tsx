@@ -18,47 +18,47 @@ interface OverlappingCardStackProps {
   autoPlayInterval?: number;
 }
 
-// Curated pastel palettes per card index matching the video reference
+// Curated pastel palettes matching the reference cards
 const CARD_PALETTES = [
   {
-    bg: 'bg-[#F2EDFD] dark:bg-[#1E1730]',
-    border: 'border-[#DDD2F8] dark:border-[#3C2D5C]',
+    bg: 'bg-[#EDE4FF] dark:bg-[#201533]',
+    border: 'border-[#DAC8FC] dark:border-[#3E2C5E]',
     text: 'text-[#1D1135] dark:text-[#EFEAFC]',
     subtext: 'text-[#564573] dark:text-[#A79AC2]',
-    tagBg: 'bg-[#E2D5FA] dark:bg-[#2C2147]',
-    tagText: 'text-[#532DB0] dark:text-[#C7ACFA]'
+    tagBg: 'bg-[#DDD0FA] dark:bg-[#2D1F47]',
+    tagText: 'text-[#4F26B8] dark:text-[#C7ACFA]'
   },
   {
-    bg: 'bg-[#EBF8F2] dark:bg-[#122A1E]',
-    border: 'border-[#C5EBD8] dark:border-[#1F4C36]',
-    text: 'text-[#0E3523] dark:text-[#E3F7EE]',
-    subtext: 'text-[#3E6D56] dark:text-[#96C7AF]',
-    tagBg: 'bg-[#D3F2E3] dark:bg-[#1B3E2D]',
-    tagText: 'text-[#1B7349] dark:text-[#78E2AE]'
+    bg: 'bg-[#D1FAE5] dark:bg-[#062D1D]',
+    border: 'border-[#A7F3D0] dark:border-[#0F5135]',
+    text: 'text-[#064E3B] dark:text-[#D1FAE5]',
+    subtext: 'text-[#047857] dark:text-[#6EE7B7]',
+    tagBg: 'bg-[#A7F3D0] dark:bg-[#0B3D28]',
+    tagText: 'text-[#065F46] dark:text-[#A7F3D0]'
   },
   {
-    bg: 'bg-[#FFF0E8] dark:bg-[#2E1C15]',
-    border: 'border-[#F8D2C2] dark:border-[#522E22]',
-    text: 'text-[#3E1A11] dark:text-[#FDEAE2]',
-    subtext: 'text-[#7B4D41] dark:text-[#CBB0A7]',
-    tagBg: 'bg-[#FDE0D3] dark:bg-[#43251B]',
-    tagText: 'text-[#A84523] dark:text-[#FCA587]'
+    bg: 'bg-[#FFE4D6] dark:bg-[#341B12]',
+    border: 'border-[#FECBA1] dark:border-[#5C2B1A]',
+    text: 'text-[#431B0E] dark:text-[#FFEADF]',
+    subtext: 'text-[#7C3620] dark:text-[#E2A58F]',
+    tagBg: 'bg-[#FED7AA] dark:bg-[#4A2215]',
+    tagText: 'text-[#9A3412] dark:text-[#FDBA74]'
   },
   {
-    bg: 'bg-[#ECF5FE] dark:bg-[#112338]',
-    border: 'border-[#C8E1FC] dark:border-[#1E3E64]',
-    text: 'text-[#0A2946] dark:text-[#E4F1FD]',
-    subtext: 'text-[#3B6286] dark:text-[#96BBDC]',
-    tagBg: 'bg-[#D5E9FD] dark:bg-[#1B3654]',
-    tagText: 'text-[#1A62A6] dark:text-[#7EB9F7]'
+    bg: 'bg-[#E0F2FE] dark:bg-[#0C273D]',
+    border: 'border-[#BAE6FD] dark:border-[#14476E]',
+    text: 'text-[#0C4A6E] dark:text-[#E0F2FE]',
+    subtext: 'text-[#0369A1] dark:text-[#7DD3FC]',
+    tagBg: 'bg-[#BAE6FD] dark:bg-[#123856]',
+    tagText: 'text-[#0284C7] dark:text-[#BAE6FD]'
   },
   {
-    bg: 'bg-[#FEF9E8] dark:bg-[#2B2513]',
-    border: 'border-[#F7E7B8] dark:border-[#4C411D]',
-    text: 'text-[#382D08] dark:text-[#FAF4DC]',
-    subtext: 'text-[#706030] dark:text-[#C7BA8E]',
-    tagBg: 'bg-[#FDF0C8] dark:bg-[#3D3417]',
-    tagText: 'text-[#8A6A0B] dark:text-[#F4CE5E]'
+    bg: 'bg-[#FEF08A]/40 dark:bg-[#2E280C]',
+    border: 'border-[#FDE047]/60 dark:border-[#524612]',
+    text: 'text-[#422006] dark:text-[#FEF9C3]',
+    subtext: 'text-[#713F12] dark:text-[#FDE047]',
+    tagBg: 'bg-[#FEF08A]/80 dark:bg-[#403610]',
+    tagText: 'text-[#854D0E] dark:text-[#FEF08A]'
   }
 ];
 
@@ -67,7 +67,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
   className = '',
   allowViewToggle = true,
   autoPlay = true,
-  autoPlayInterval = 4200
+  autoPlayInterval = 4400
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -94,14 +94,14 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % total);
-    setTimeout(() => setIsAnimating(false), 460);
+    setTimeout(() => setIsAnimating(false), 540);
   }, [isAnimating, total]);
 
   const handlePrev = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev - 1 + total) % total);
-    setTimeout(() => setIsAnimating(false), 460);
+    setTimeout(() => setIsAnimating(false), 540);
   }, [isAnimating, total]);
 
   // Automated Smooth Cycling with Hover & Focus Pause
@@ -138,7 +138,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging) return;
     const diff = e.clientX - dragStartX.current;
-    const clampedDiff = Math.max(-130, Math.min(130, diff));
+    const clampedDiff = Math.max(-140, Math.min(140, diff));
     setDragOffset(clampedDiff);
   };
 
@@ -155,6 +155,12 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
     setDragOffset(0);
   };
 
+  // Helper for infinite circular offset relative to currentIndex
+  const getCircularOffset = (idx: number, current: number, count: number): number => {
+    const rawDiff = ((idx - current) % count + count) % count;
+    return rawDiff > count / 2 ? rawDiff - count : rawDiff;
+  };
+
   // Grid view option
   if (viewMode === 'grid') {
     return (
@@ -166,7 +172,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
               className="press-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-structure)] hover:border-[var(--accent-primary)] cursor-pointer"
             >
               <Layers className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-              <span>Switch to Overlap Deck View</span>
+              <span>Switch to Cards View</span>
             </button>
           </div>
         )}
@@ -177,7 +183,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
             return (
               <div
                 key={item.id}
-                className={`rounded-3xl p-6 sm:p-7 border ${palette.bg} ${palette.border} ${palette.text} flex flex-col justify-between card-hover shadow-xs`}
+                className={`rounded-[28px] p-6 sm:p-7 border ${palette.bg} ${palette.border} ${palette.text} flex flex-col justify-between card-hover shadow-xs`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs">
@@ -218,6 +224,11 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
     );
   }
 
+  // Card dimensions matching reference image: 1 full card on left, 2nd card next to come showing half on screen
+  const cardWidth = isMobile ? 275 : 365;
+  const cardGap = isMobile ? 14 : 20;
+  const stepX = cardWidth + cardGap;
+
   return (
     <div
       className={`relative w-full ${className}`}
@@ -226,15 +237,15 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="space-y-4">
-        {/* Top Mini Status Bar */}
+      <div className="space-y-3">
+        {/* Top Mini Control / Reading Status Bar */}
         <div className="flex items-center justify-between flex-wrap gap-2 px-1">
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-[var(--text-structure)] tabular-nums">
-              Story {currentIndex + 1} of {total}
+              Review {currentIndex + 1} of {total}
             </span>
 
-            {/* Reading Status Pill */}
+            {/* Reading Status Indicator */}
             {isPaused ? (
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 animate-pulse">
                 <BookOpen className="w-3 h-3" />
@@ -286,120 +297,134 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
           </div>
         </div>
 
-        {/* Horizontal Overlapping Card Deck Stage */}
+        {/* 
+          Cards Viewport Stage:
+          - Shows 1 FULL card on the left
+          - Shows 2nd card next to come HALF on the right
+          - Animation: when next card arrives, current card goes BACK in 3D depth and moves away
+        */}
         <div
           ref={containerRef}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className="relative h-[440px] sm:h-[420px] w-full overflow-hidden select-none cursor-grab active:cursor-grabbing touch-pan-y"
-          style={{ perspective: '1400px' }}
+          className="relative h-[430px] sm:h-[410px] w-full overflow-hidden select-none cursor-grab active:cursor-grabbing touch-pan-y"
+          style={{ perspective: '1200px' }}
         >
           {testimonials.map((item, idx) => {
-            const offset = idx - currentIndex;
+            const offset = getCircularOffset(idx, currentIndex, total);
             const palette = CARD_PALETTES[idx % CARD_PALETTES.length];
-            const stepX = isMobile ? 180 : 250;
 
-            // Card Geometry matching the video:
-            // - Active Center card: offset = 0, scale 1, rotate 0deg, full opacity
-            // - Left card (previous): offset = -1, tilted negative rotate(-6deg), peeking left
-            // - Right card (next): offset = 1, upright peeking right, scale 0.96, rotate 2deg
-            // - Far right cards: offset >= 2, stacked further right
+            // Geometry Specification matching user's requested layout:
+            // 1) offset === 0 (Active 1 Full Card):
+            //    Positioned on the left (translateX = 0), full scale, zIndex = 20
+            // 2) offset === 1 (2nd card next to come, showing half in screen):
+            //    Positioned right next to card 1 (translateX = stepX), scale 1.0, zIndex = 15
+            // 3) offset === -1 (Card that just exited / "goes back"):
+            //    Pushes back in 3D (translateZ = -70px, scale = 0.92, translateX = -stepX * 0.95), zIndex = 10, fades out
+            // 4) offset >= 2 (Upcoming waiting offscreen right):
+            //    translateX = stepX * 1.9, scale = 0.94, opacity = 0
             let translateX = 0;
             let translateY = 0;
+            let translateZ = 0;
             let rotate = 0;
             let scale = 1;
             let opacity = 1;
-            let zIndex = 30;
+            let zIndex = 20;
             let pointerEvents: 'auto' | 'none' = 'none';
 
             if (offset === 0) {
-              // Active Center Card
+              // 1 FULL CARD (in front on the left)
               translateX = 0;
               translateY = 0;
+              translateZ = 0;
               rotate = 0;
               scale = 1;
               opacity = 1;
-              zIndex = 30;
+              zIndex = 20;
               pointerEvents = 'auto';
 
               if (isDragging) {
                 translateX += dragOffset;
-                rotate += dragOffset * 0.04;
+                rotate += dragOffset * 0.02;
+              }
+            } else if (offset === 1) {
+              // 2nd CARD NEXT TO COME (showing half in screen on the right)
+              translateX = stepX;
+              translateY = 0;
+              translateZ = 0;
+              rotate = 0;
+              scale = 1;
+              opacity = 1;
+              zIndex = 15;
+              pointerEvents = 'auto';
+
+              if (isDragging) {
+                translateX += dragOffset;
               }
             } else if (offset === -1) {
-              // Previous card peeking on the left, tilted
-              translateX = -stepX;
-              translateY = 10;
-              rotate = -6;
-              scale = 0.94;
-              opacity = 0.88;
-              zIndex = 20;
-              pointerEvents = 'auto';
-            } else if (offset === 1) {
-              // Next card peeking on the right, ready to enter
-              translateX = stepX;
+              // CARD GOES BACK (moves backward in depth and recedes to the left)
+              translateX = -stepX * 0.95;
               translateY = 6;
-              rotate = 2;
-              scale = 0.96;
-              opacity = 0.9;
-              zIndex = 25;
-              pointerEvents = 'auto';
-            } else if (offset === 2) {
-              // Second card to the right
-              translateX = stepX * 1.85;
-              translateY = 12;
-              rotate = 4;
+              translateZ = -70;
+              rotate = -2;
               scale = 0.92;
-              opacity = 0.55;
-              zIndex = 15;
-            } else if (offset < -1) {
-              // Passed card far to the left
-              translateX = -stepX * 2;
-              translateY = 16;
-              rotate = -10;
-              scale = 0.88;
               opacity = 0;
               zIndex = 10;
+              pointerEvents = 'none';
+            } else if (offset === 2) {
+              // Card waiting off-screen to the right, ready to become the next half-card
+              translateX = stepX * 1.9;
+              translateY = 0;
+              translateZ = -40;
+              rotate = 0;
+              scale = 0.95;
+              opacity = 0;
+              zIndex = 5;
+              pointerEvents = 'none';
             } else {
-              // Upcoming cards far to the right
-              translateX = stepX * 2.7;
-              translateY = 16;
-              rotate = 6;
+              // Off-screen behind
+              translateX = -stepX * 1.8;
+              translateY = 10;
+              translateZ = -90;
+              rotate = -4;
               scale = 0.88;
               opacity = 0;
-              zIndex = 10;
+              zIndex = 5;
+              pointerEvents = 'none';
             }
 
             return (
               <div
                 key={item.id}
                 onClick={() => {
-                  if (offset !== 0 && !isAnimating) {
-                    if (offset === 1) handleNext();
-                    else if (offset === -1) handlePrev();
+                  if (offset === 1 && !isAnimating) {
+                    handleNext();
                   }
                 }}
-                className={`absolute top-2 left-1/2 -ml-[145px] sm:-ml-[175px] w-[290px] sm:w-[350px] h-[410px] sm:h-[390px] rounded-3xl p-6 sm:p-7 border ${palette.bg} ${palette.border} ${palette.text} shadow-xl will-change-transform flex flex-col justify-between transition-all ${
+                className={`absolute top-2 left-0 h-[400px] sm:h-[385px] rounded-[28px] p-6 sm:p-7 border ${palette.bg} ${palette.border} ${palette.text} shadow-lg will-change-transform flex flex-col justify-between transition-all ${
                   offset === 0
                     ? 'cursor-grab active:cursor-grabbing'
-                    : 'cursor-pointer hover:opacity-100'
+                    : offset === 1
+                    ? 'cursor-pointer hover:opacity-100'
+                    : ''
                 }`}
                 style={{
-                  transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotate}deg) scale(${scale})`,
+                  width: `${cardWidth}px`,
+                  transform: `translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotate(${rotate}deg) scale(${scale})`,
                   opacity,
                   zIndex,
                   pointerEvents,
-                  transitionDuration: isDragging && offset === 0 ? '0ms' : '520ms',
+                  transitionDuration: isDragging && offset === 0 ? '0ms' : '540ms',
                   transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
                   boxShadow:
                     offset === 0
-                      ? '0 24px 48px -12px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.05)'
-                      : '0 12px 28px -8px rgba(0, 0, 0, 0.1)'
+                      ? '0 20px 40px -12px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.04)'
+                      : '0 10px 24px -8px rgba(0, 0, 0, 0.08)'
                 }}
               >
-                {/* Card Top: Stars & Category Tag */}
+                {/* Card Top: Rating Stars, Date & Category Tag */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1 text-amber-500">
@@ -422,7 +447,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
                   </p>
                 </div>
 
-                {/* Card Bottom: Patient info & verification */}
+                {/* Card Bottom: Patient Info & Verification (Styled like the reference) */}
                 <div className="pt-3 border-t border-black/10 dark:border-white/10 space-y-1">
                   <div className="flex items-baseline justify-between">
                     <span className="font-bold text-sm sm:text-base">{item.patientName}</span>
@@ -439,10 +464,10 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
                   </div>
                 </div>
 
-                {/* Click indicator on peeking cards */}
-                {offset !== 0 && (
-                  <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-white/80 dark:bg-black/50 backdrop-blur-xs text-[10px] font-bold shadow-xs">
-                    {offset === 1 ? 'Next →' : '← Prev'}
+                {/* Click indicator on the half-visible next card */}
+                {offset === 1 && (
+                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-xs text-[10px] font-bold shadow-xs">
+                    Next card →
                   </div>
                 )}
               </div>
@@ -451,7 +476,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
         </div>
 
         {/* Story Scrubber Progress Dots */}
-        <div className="flex items-center justify-center gap-2 pt-1">
+        <div className="flex items-center justify-start sm:justify-center gap-2 pt-1 px-1">
           {testimonials.map((_, i) => (
             <button
               key={i}
@@ -460,7 +485,7 @@ export const OverlappingCardStack: React.FC<OverlappingCardStackProps> = ({
                 if (currentIndex !== i && !isAnimating) {
                   setIsAnimating(true);
                   setCurrentIndex(i);
-                  setTimeout(() => setIsAnimating(false), 460);
+                  setTimeout(() => setIsAnimating(false), 540);
                 }
               }}
               className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
