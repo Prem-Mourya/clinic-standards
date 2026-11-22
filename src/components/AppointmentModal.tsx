@@ -258,12 +258,12 @@ export const AppointmentModal: React.FC = () => {
                     onClick={() => setVisitType('Follow-up Consultation (Within 7 Days)')}
                     className={`press-tactile p-2.5 rounded-xl text-left border text-xs cursor-pointer ${
                       visitType === 'Follow-up Consultation (Within 7 Days)'
-                        ? 'border-emerald-600 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 font-bold'
+                        ? 'border-emerald-600 bg-emerald-500/15 text-emerald-950 dark:text-emerald-200 font-bold'
                         : 'border-[var(--border-subtle)] bg-[var(--bg-canvas)] text-[var(--text-muted)]'
                     }`}
                   >
-                    <div className="font-semibold text-emerald-700 dark:text-emerald-400">7-Day Follow-Up</div>
-                    <div className="text-[10px] opacity-75">Complimentary (₹0 fee)</div>
+                    <div className="font-semibold text-emerald-800 dark:text-emerald-300">7-Day Follow-Up</div>
+                    <div className="text-[10px] opacity-80">Complimentary (₹0 fee)</div>
                   </button>
                 </div>
 
@@ -301,18 +301,18 @@ export const AppointmentModal: React.FC = () => {
                   />
                 </div>
 
-                {/* Mandatory Disclaimer */}
-                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-900 dark:text-amber-200 flex items-start gap-2">
+                {/* Mandatory Disclaimer with High-Contrast Text */}
+                <div className="p-3 rounded-xl bg-amber-500/15 dark:bg-amber-950/30 border border-amber-600/30 text-[11px] text-amber-950 dark:text-amber-100 flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0 text-amber-700 dark:text-amber-400 mt-0.5" />
                   <div>
-                    <strong>Important Notice:</strong> Submitting this enquiry does not automatically confirm an appointment. Our clinic desk will verify Dr. Mehta's schedule and contact you via WhatsApp/call to allocate your consultation token.
+                    <strong className="font-bold text-amber-950 dark:text-amber-200">Important Notice:</strong> Submitting this enquiry does not automatically confirm an appointment. Our clinic desk will verify Dr. Mehta's schedule and contact you via WhatsApp/call to allocate your consultation token.
                   </div>
                 </div>
 
                 {/* Submit button */}
                 <button
                   type="submit"
-                  className="press-tactile w-full py-3 px-6 rounded-xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  className="press-tactile w-full py-3 px-6 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-bold text-sm hover:opacity-90 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                   Submit Appointment Enquiry
@@ -321,8 +321,8 @@ export const AppointmentModal: React.FC = () => {
             ) : (
               /* WhatsApp Tab with Live Chat Bubble Preview (Enhanced Delight) */
               <div className="space-y-4">
-                <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-900 dark:text-emerald-200">
-                  <p className="font-bold text-xs mb-0.5 flex items-center gap-1.5 text-emerald-800 dark:text-emerald-300">
+                <div className="p-3.5 rounded-xl bg-emerald-500/15 dark:bg-emerald-950/30 border border-emerald-600/30 text-xs text-emerald-950 dark:text-emerald-100">
+                  <p className="font-bold text-xs mb-0.5 flex items-center gap-1.5 text-emerald-900 dark:text-emerald-200">
                     <MessageSquare className="w-4 h-4" />
                     Direct WhatsApp Appointment Request
                   </p>

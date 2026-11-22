@@ -125,7 +125,7 @@ export const FaqPage: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => openAppointmentModal()}
-            className="press-tactile px-5 py-2.5 rounded-xl bg-[var(--accent-primary)] text-white text-xs font-bold hover:bg-[var(--accent-hover)] flex items-center gap-1.5 cursor-pointer"
+            className="press-tactile px-5 py-2.5 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] text-xs font-bold hover:opacity-90 flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <Calendar className="w-3.5 h-3.5" />
             <span>Request Visit Slot</span>

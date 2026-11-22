@@ -11,10 +11,13 @@ export const OpdLiveBadge: React.FC<OpdLiveBadgeProps> = ({ showDetails = true, 
   const { opdStatus } = useClinic();
 
   return (
-    <div className={`inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border text-xs font-medium ${opdStatus.badgeClass} ${className}`}>
-      <span className="relative flex h-2 w-2">
+    <div
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium shadow-xs select-none ${opdStatus.badgeClass} ${className}`}
+      title={opdStatus.currentOrNextSession}
+    >
+      <span className="relative flex h-2 w-2 shrink-0">
         {opdStatus.isOpen && (
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
         )}
         <span
           className={`relative inline-flex rounded-full h-2 w-2 ${
@@ -22,11 +25,15 @@ export const OpdLiveBadge: React.FC<OpdLiveBadgeProps> = ({ showDetails = true, 
           }`}
         />
       </span>
-      <div className="flex items-center gap-1.5">
-        <Clock className="w-3.5 h-3.5 opacity-70" />
-        <span className="font-semibold tracking-wide">{opdStatus.statusText}</span>
+      <div className="flex items-center gap-1.5 leading-none">
+        <Clock className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
+        <span className="font-semibold text-[var(--text-structure)] tracking-tight">
+          {opdStatus.statusText}
+        </span>
         {showDetails && opdStatus.subText && (
-          <span className="opacity-80 hidden sm:inline">· {opdStatus.subText}</span>
+          <span className="text-[var(--text-muted)] font-normal hidden sm:inline">
+            · {opdStatus.subText}
+          </span>
         )}
       </div>
     </div>

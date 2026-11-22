@@ -154,7 +154,7 @@ export const TimingsLocationPage: React.FC = () => {
                 href={CLINIC_DATA.contact.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="press-tactile py-3 px-5 rounded-xl bg-[var(--accent-primary)] text-white text-xs font-bold hover:bg-[var(--accent-hover)] flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                className="press-tactile py-3 px-5 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] text-xs font-bold hover:opacity-90 flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 <span>Navigate via Google Maps</span>

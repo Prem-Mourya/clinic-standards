@@ -47,7 +47,7 @@ export const ReviewsPage: React.FC = () => {
             onClick={() => setSelectedFilter(cat)}
             className={`press-tactile px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
               selectedFilter === cat
-                ? 'bg-[var(--accent-primary)] text-white shadow-xs'
+                ? 'bg-[var(--accent-primary)] text-[var(--accent-foreground)] shadow-xs'
                 : 'bg-[var(--bg-card)] text-[var(--text-structure)] border border-[var(--border-subtle)] hover:bg-[var(--bg-surface)]'
             }`}
           >
@@ -116,7 +116,7 @@ export const ReviewsPage: React.FC = () => {
         </p>
         <button
           onClick={() => openAppointmentModal()}
-          className="press-tactile px-6 py-3 rounded-xl bg-[var(--accent-primary)] text-white text-xs font-bold hover:bg-[var(--accent-hover)] cursor-pointer inline-flex items-center gap-2"
+          className="press-tactile px-6 py-3 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] text-xs font-bold hover:opacity-90 shadow-md cursor-pointer inline-flex items-center gap-2"
         >
           <Calendar className="w-4 h-4" />
           <span>Request Consultation Slot</span>

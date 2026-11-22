@@ -100,7 +100,7 @@ export const AboutDoctorPage: React.FC = () => {
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
               onClick={() => openAppointmentModal()}
-              className="press-tactile py-3 px-6 rounded-xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              className="press-tactile py-3 px-6 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-bold text-sm hover:opacity-90 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Request Consultation with Dr. Mehta</span>

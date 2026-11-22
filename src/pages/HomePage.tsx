@@ -67,7 +67,7 @@ export const HomePage: React.FC = () => {
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
                   onClick={() => openAppointmentModal()}
-                  className="press-tactile py-3.5 px-7 rounded-xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  className="press-tactile py-3.5 px-7 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-bold text-sm hover:opacity-90 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Calendar className="w-4 h-4" />
                   <span>Request Consultation Slot</span>
@@ -493,31 +493,34 @@ export const HomePage: React.FC = () => {
 
       {/* 8. BOTTOM CALL TO ACTION BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl p-8 sm:p-12 bg-[var(--text-structure)] text-[var(--bg-canvas)] text-center relative overflow-hidden shadow-2xl">
+        <div className="rounded-2xl p-8 sm:p-12 bg-stone-900 dark:bg-[var(--bg-card)] border border-stone-800 dark:border-[var(--border-subtle)] text-center relative overflow-hidden shadow-2xl">
+          {/* Subtle accent glow */}
+          <div className="absolute inset-0 bg-radial from-[var(--accent-subtle)] via-transparent to-transparent opacity-25 pointer-events-none" />
+
           <div className="max-w-2xl mx-auto space-y-5 relative z-10">
-            <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-white">
+            <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-white dark:text-[var(--text-structure)]">
               Need a doctor consultation today?
             </h2>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
+            <p className="text-xs sm:text-sm text-stone-300 dark:text-[var(--text-soft)] leading-relaxed">
               Request your appointment slot online or message our desk on WhatsApp. We confirm your token promptly and respect your time.
             </p>
 
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={() => openAppointmentModal()}
-                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-xl bg-[var(--accent-primary)] text-white font-bold text-sm hover:bg-[var(--accent-hover)] cursor-pointer"
+                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-xl bg-[var(--accent-primary)] text-[var(--accent-foreground)] font-bold text-sm hover:opacity-90 shadow-md cursor-pointer"
               >
                 Request Appointment Slot
               </button>
               <a
                 href={CLINIC_DATA.contact.phoneTel}
-                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white font-bold text-sm text-center tabular-nums"
+                className="press-tactile w-full sm:w-auto px-7 py-3 rounded-xl border border-white/20 dark:border-[var(--border-subtle)] bg-white/10 dark:bg-[var(--bg-surface)] hover:bg-white/20 dark:hover:bg-[var(--bg-subtle)] text-white dark:text-[var(--text-structure)] font-bold text-sm text-center tabular-nums shadow-xs"
               >
                 Call Clinic: {CLINIC_DATA.contact.phoneDisplay}
               </a>
             </div>
 
-            <p className="text-[11px] text-white/60 pt-2 tabular-nums">
+            <p className="text-[11px] text-stone-400 dark:text-[var(--text-muted)] pt-2 tabular-nums">
               Morning OPD: 10:00 AM – 1:30 PM · Evening OPD: 5:30 PM – 9:00 PM (Mon–Sat)
             </p>
           </div>

@@ -46,7 +46,7 @@ export const ServicesPage: React.FC = () => {
             onClick={() => setSelectedCategory(cat)}
             className={`press-tactile px-4 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
               selectedCategory === cat
-                ? 'bg-[var(--accent-primary)] text-white shadow-xs'
+                ? 'bg-[var(--accent-primary)] text-[var(--accent-foreground)] shadow-xs'
                 : 'bg-[var(--bg-card)] text-[var(--text-structure)] border border-[var(--border-subtle)] hover:bg-[var(--bg-surface)]'
             }`}
           >
@@ -141,18 +141,18 @@ export const ServicesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Scope Exclusions / Responsible Practice */}
-      <section className="rounded-2xl p-6 sm:p-8 bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 dark:text-amber-200">
+      {/* Scope Exclusions / Responsible Practice with High-Contrast Legible Typography */}
+      <section className="rounded-2xl p-6 sm:p-8 bg-amber-500/15 dark:bg-amber-950/30 border border-amber-600/30 text-xs">
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5" />
           <div className="space-y-2">
-            <h3 className="font-bold text-sm text-amber-800 dark:text-amber-300">
+            <h3 className="font-bold text-sm text-amber-950 dark:text-amber-200">
               Responsible Medical Scope Notice
             </h3>
-            <p className="leading-relaxed">
+            <p className="leading-relaxed text-amber-950/90 dark:text-amber-100/90">
               Aarogya Family Clinic is an outpatient family medicine practice. We do not perform major surgical procedures, inpatient hospital admissions, advanced psychiatric treatments, or emergency trauma resuscitation.
             </p>
-            <p className="leading-relaxed">
+            <p className="leading-relaxed text-amber-950/90 dark:text-amber-100/90">
               If you or a loved one is experiencing symptoms of acute heart attack (crushing chest pain radiating to left arm), acute stroke (facial drooping, arm weakness, slurred speech), severe trauma, or uncontrollable bleeding, please proceed directly to a tertiary hospital casualty with intensive care capabilities.
             </p>
           </div>

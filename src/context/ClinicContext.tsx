@@ -1,6 +1,39 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, type ReactNode } from 'react';
 
-export type ThemeType = 'warm-editorial' | 'quiet-luxury' | 'modernist-mineral' | 'deep-moss';
+export type ThemeType =
+  | 'warm-editorial'
+  | 'deep-moss'
+  | 'avocado-walnut'
+  | 'quiet-luxury'
+  | 'midnight-obsidian'
+  | 'cobalt-runway'
+  | 'parisian-atelier'
+  | 'digital-alpine'
+  | 'kyoto-cedar'
+  | 'cyber-primitivism'
+  | 'nocturne-velvet'
+  | 'modernist-mineral';
+
+export const ALL_THEMES: ThemeType[] = [
+  'warm-editorial',
+  'deep-moss',
+  'avocado-walnut',
+  'quiet-luxury',
+  'midnight-obsidian',
+  'cobalt-runway',
+  'parisian-atelier',
+  'digital-alpine',
+  'kyoto-cedar',
+  'cyber-primitivism',
+  'nocturne-velvet',
+  'modernist-mineral'
+];
+
+export const DARK_THEMES: ThemeType[] = [
+  'deep-moss',
+  'midnight-obsidian',
+  'nocturne-velvet'
+];
 
 export interface OpdLiveStatus {
   isOpen: boolean;
@@ -36,9 +69,19 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   // Initialize theme from localStorage if available
   useEffect(() => {
     const saved = localStorage.getItem('siteforge_theme') as ThemeType;
-    if (saved && ['warm-editorial', 'quiet-luxury', 'modernist-mineral', 'deep-moss'].includes(saved)) {
-      setActiveThemeState(saved);
-      document.documentElement.setAttribute('data-theme', saved === 'warm-editorial' ? '' : saved);
+    const initialTheme: ThemeType = saved && ALL_THEMES.includes(saved) ? saved : 'warm-editorial';
+    setActiveThemeState(initialTheme);
+    if (initialTheme === 'warm-editorial') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', initialTheme);
+    }
+
+    // Apply .dark class only if the theme is an actual dark theme
+    if (DARK_THEMES.includes(initialTheme)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
@@ -49,6 +92,12 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       document.documentElement.removeAttribute('data-theme');
     } else {
       document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    if (DARK_THEMES.includes(theme)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   };
 
@@ -95,7 +144,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: true,
           statusText: "Open Now: Morning OPD",
           subText: "Consulting until 1:30 PM today",
-          badgeClass: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
+          badgeClass: "bg-emerald-500/15 border-emerald-600/30 text-[var(--text-structure)]",
           currentOrNextSession: "Morning OPD (10:00 AM – 1:30 PM)"
         };
       } else if (currentMinutes < 600) {
@@ -103,7 +152,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: false,
           statusText: "Opens at 10:00 AM Today",
           subText: "Tokens available at desk from 9:45 AM",
-          badgeClass: "bg-amber-500/10 text-amber-800 border-amber-500/30 dark:text-amber-300",
+          badgeClass: "bg-amber-500/15 border-amber-600/30 text-[var(--text-structure)]",
           currentOrNextSession: "Morning OPD (10:00 AM – 1:30 PM)"
         };
       } else if (currentMinutes > 810 && currentMinutes < 1050) {
@@ -111,7 +160,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: false,
           statusText: "Opens at 5:30 PM Today",
           subText: "Evening OPD: 5:30 PM – 9:00 PM",
-          badgeClass: "bg-amber-500/10 text-amber-800 border-amber-500/30 dark:text-amber-300",
+          badgeClass: "bg-amber-500/15 border-amber-600/30 text-[var(--text-structure)]",
           currentOrNextSession: "Evening OPD (5:30 PM – 9:00 PM)"
         };
       } else if (currentMinutes >= 1050 && currentMinutes <= 1260) {
@@ -119,7 +168,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: true,
           statusText: "Open Now: Evening OPD",
           subText: "Consulting until 9:00 PM tonight",
-          badgeClass: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
+          badgeClass: "bg-emerald-500/15 border-emerald-600/30 text-[var(--text-structure)]",
           currentOrNextSession: "Evening OPD (5:30 PM – 9:00 PM)"
         };
       } else {
@@ -129,7 +178,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: false,
           statusText: `Closed for Tonight`,
           subText: `Next consultation: ${nextDay}`,
-          badgeClass: "bg-stone-500/10 text-stone-700 border-stone-400/30 dark:text-stone-300",
+          badgeClass: "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-structure)]",
           currentOrNextSession: nextDay
         };
       }
@@ -140,7 +189,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: true,
           statusText: "Open Now: Sunday OPD",
           subText: "Prior Appointments Only (until 1:00 PM)",
-          badgeClass: "bg-emerald-500/10 text-emerald-700 border-emerald-500/30 dark:text-emerald-300",
+          badgeClass: "bg-emerald-500/15 border-emerald-600/30 text-[var(--text-structure)]",
           currentOrNextSession: "Sunday OPD (10:00 AM – 1:00 PM)"
         };
       } else {
@@ -148,7 +197,7 @@ export const ClinicProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           isOpen: false,
           statusText: "Closed for Sunday",
           subText: "Regular OPD resumes Monday at 10:00 AM",
-          badgeClass: "bg-stone-500/10 text-stone-700 border-stone-400/30 dark:text-stone-300",
+          badgeClass: "bg-[var(--bg-surface)] border-[var(--border-subtle)] text-[var(--text-structure)]",
           currentOrNextSession: "Monday Morning OPD (10:00 AM)"
         };
       }
